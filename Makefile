@@ -25,6 +25,9 @@ docker-pull:
 docker-build:
 	docker-compose build
 
+docker-exec:
+	docker-compose run --rm php-cli /bin/bash
+
 phpstan:
 	docker-compose run --rm php-cli ./vendor/bin/phpstan analyse src
 
