@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./public/build/",
+    "noImplicitAny": true,
+    "module": "ES6",
+    "target": "ES5",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "allowJs": true,
+    "moduleResolution": "Node"
+  }
+}
