@@ -11,8 +11,8 @@ class SpaController extends AbstractController
     #[Route(
         '/{reactRouting}',
         name: 'main',
-        requirements: ['reactRouting' => "^(?!api).+"],
-        defaults: ["reactRouting" => null]
+        requirements: ['reactRouting' => '^(?!api).+'],
+        defaults: ['reactRouting' => null]
     )]
     public function index(): Response
     {

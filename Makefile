@@ -1,35 +1,37 @@
-up: docker-up
-init: docker-down-clear docker-pull docker-build docker-up project-init
-test: project-test
+init: down-clear pull build up project-init
+restart: down up
 
-project-init: project-composer-install
+project-init: p-composer-install p-npm-install p-npm-build
 
-project-composer-install:
-	docker-compose run --rm php-cli composer install
-
-project-test:
-	docker-compose run --rm php-cli php bin/phpunit
-
-docker-up:
+up:
 	docker-compose up -d
 
-docker-down:
+down:
 	docker-compose down --remove-orphans
 
-docker-down-clear:
+test:
+	docker-compose exec php php bin/phpunit
+
+down-clear:
 	docker-compose down -v --remove-orphans
 
-docker-pull:
+pull:
 	docker-compose pull
 
-docker-build:
+build:
 	docker-compose build
 
-docker-exec:
-	docker-compose run --rm php-cli /bin/bash
+p-composer-install:
+	docker-compose exec php composer install
+
+p-npm-install:
+	docker-compose run --rm encore npm install
+
+p-npm-build:
+	docker-compose run --rm encore npm run dev
 
 phpstan:
-	docker-compose run --rm php-cli ./vendor/bin/phpstan analyse src
+	docker-compose exec php ./vendor/bin/phpstan analyse src
 
 cs-fixer:
-	docker-compose run --rm php-cli ./vendor/bin/php-cs-fixer fix
+	docker-compose exec php ./vendor/bin/php-cs-fixer fix
