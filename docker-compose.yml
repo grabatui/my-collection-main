@@ -4,6 +4,7 @@ services:
   nginx:
     build:
       context: ./docker/nginx/development
+    container_name: my-collection-nginx
     volumes:
       - .:/app
     depends_on:
@@ -13,12 +14,12 @@ services:
     networks:
       main-net:
         ipv4_address: 172.27.0.4
-      database:
       php:
 
   php:
     build:
       context: ./docker/php/development
+    container_name: my-collection-php
     volumes:
       - .:/app
       - composer:/root/.composer/cache
@@ -28,24 +29,31 @@ services:
       - "9000:9000"
     networks:
       php:
+      database:
 
   database:
     build:
       context: ./docker/postgres/development
+    container_name: my-collection-database
     environment:
-      POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_DB: "app"
+      POSTGRES_PASSWORD: "123123"
+      POSTGRES_USER: "postgres"
       POSTGRES_HOST_AUTH_METHOD: trust
+      PGDATA: /docker/_var/database
     volumes:
       - ./.docker/postgres/development:/docker-entrypoint-initdb.d
-      - ./database:/var/lib/postgresql/data:rw
+      - ./docker/_var/database:/var/lib/postgresql/data:rw
     ports:
       - "15434:5432"
+    restart: on-failure
+    networks:
+      database:
 
   encore:
     build:
       context: ./docker/encore/development
+    container_name: my-collection-encore
     volumes:
       - .:/app
     ports:
