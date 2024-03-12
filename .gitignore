@@ -3,6 +3,7 @@
 /var/
 /vendor/
 .idea
+/docker/_var
 
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php

@@ -10,10 +10,8 @@ services:
     depends_on:
       - php
     ports:
-      - "8082:80"
+      - "8081:80"
     networks:
-      main-net:
-        ipv4_address: 172.27.0.4
       php:
 
   php:
@@ -42,7 +40,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
       PGDATA: /docker/_var/database
     volumes:
-      - ./.docker/postgres/development:/docker-entrypoint-initdb.d
+      - ./docker/_var/postgres/development:/docker-entrypoint-initdb.d
       - ./docker/_var/database:/var/lib/postgresql/data:rw
     ports:
       - "15434:5432"
@@ -65,11 +63,5 @@ volumes:
   database:
 
 networks:
-  main-net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.27.0.0/16
   database:
   php:
