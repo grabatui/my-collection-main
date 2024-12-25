@@ -3,13 +3,13 @@ import './styles/app.css';
 
 import Router from 'preact-router';
 import {h, render} from 'preact';
+import Home from "./Page/Home";
 
 
 const App = () => (
-    <div>
-        <div>Hello world</div>
-        <Router />
-    </div>
+    <Router>
+        <Home path="/" />
+    </Router>
 );
 
 render(<App />, document.getElementById('app'));

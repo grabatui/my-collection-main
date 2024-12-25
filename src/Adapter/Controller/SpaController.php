@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Adapter\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ class SpaController extends AbstractController
         '/{reactRouting}',
         name: 'main',
         requirements: ['reactRouting' => '^(?!api).+'],
-        defaults: ['reactRouting' => null]
+        defaults: ['reactRouting' => null],
     )]
     public function index(): Response
     {

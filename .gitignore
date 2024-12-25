@@ -1,9 +1,15 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
-/vendor/
 .idea
 /docker/_var
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/var/
+/vendor/
+###< symfony/framework-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php

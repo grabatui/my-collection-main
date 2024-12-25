@@ -1,24 +1,35 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+  app.password_salt: '%env(PASSWORD_SALT)%'
+  app.token_ttl: 86400
 
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+  _defaults:
+    autowire: true
+    autoconfigure: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+  App\Domain\Service\Password\PasswordHasher:
+    arguments:
+      $salt: '%app.password_salt%'
+
+  App\Infrastructure\Security\AccessTokenHandler:
+    class: \App\Infrastructure\Security\AccessTokenHandler
+    arguments:
+      $secret: '%env(SECRET_TOKEN_STRING)%'
+
+  App\Domain\Service\AccessToken\TokenFactory:
+    class: \App\Domain\Service\AccessToken\TokenFactory
+    arguments:
+      $secret: '%env(SECRET_TOKEN_STRING)%'
+      $tokenTtl: '%app.token_ttl%'
+
+  App\Adapter\Response\Core\Subscriber\ExceptionResponseEventSubscriber:
+    class: \App\Adapter\Response\Core\Subscriber\ExceptionResponseEventSubscriber
+    arguments:
+      $isShowInternalException: '%env(bool:SHOW_500_DETAIL_ERROR)%'
