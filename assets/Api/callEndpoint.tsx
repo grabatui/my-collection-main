@@ -1,4 +1,10 @@
-import {clearAccessToken, getAccessToken, setAccessToken} from "../helpers/api";
+import {clearUser, getAccessToken} from "../helpers/api";
+
+export interface EmptyResponse {
+    data: object,
+    message: string,
+    resultCode: 'success',
+}
 
 export interface ErrorResponse {
     data: Violation[],
@@ -39,8 +45,15 @@ export const callEndpoint = (
         }
     )
         .then((response) => {
-            if (response.status === 401) {
-                clearAccessToken();
+            if (response.status < 200 || response.status > 399) {
+                if (response.status === 401) {
+                    clearUser();
+                }
+
+                if (onError) {
+                    onError(response);
+                }
+
                 return {};
             }
 
@@ -57,6 +70,11 @@ export const callEndpoint = (
 
                 onError(response);
                 return
+            }
+
+            if (typeof response === 'object' && Object.keys(response).length <= 0) {
+                onError(response);
+                return;
             }
 
             if (onSuccess) {

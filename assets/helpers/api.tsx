@@ -1,5 +1,6 @@
 import {ErrorResponse, Violation} from "../Api/callEndpoint";
 import Cookies from "universal-cookie";
+import {User} from "../Signal/GlobalSignal";
 
 
 export function makeErrorsByDefaultResponse(response: ErrorResponse): object {
@@ -44,4 +45,12 @@ export function getAccessToken(): string {
     });
 
     return cookies.get('accessToken');
+}
+
+export function clearUser(): void {
+    clearAccessToken();
+
+    User.value = {
+        data: {},
+    };
 }

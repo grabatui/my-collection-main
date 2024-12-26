@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Controller\Api\V1\User;
+namespace App\Adapter\Controller\Api\V1\Auth;
 
 use App\Adapter\Controller\Api\AbstractController;
-use App\Adapter\Mapper\User\GetMetadataMapper;
 use App\Domain\Entity\User;
+use App\Domain\Service\Auth\Logout\LogoutService;
 use DomainException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class GetMetadataController extends AbstractController
+class LogoutController extends AbstractController
 {
     public function __construct(
-        private readonly GetMetadataMapper $getMetadataMapper,
+        private readonly LogoutService $logoutService,
     ) {}
 
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route(
-        '/api/v1/user/metadata',
-        name: 'v1_user_metadata',
-        methods: 'GET',
+        '/api/v1/auth/logout',
+        name: 'v1_auth_logout',
+        methods: 'POST',
     )]
     public function __invoke(): JsonResponse
     {
@@ -31,8 +31,8 @@ class GetMetadataController extends AbstractController
             throw new DomainException();
         }
 
-        return $this->responseFactory->apiResponse(
-            $this->getMetadataMapper->fromEntityToResponse($user)
-        );
+        $this->logoutService->execute($user);
+
+        return $this->makeEmptyResponse();
     }
 }

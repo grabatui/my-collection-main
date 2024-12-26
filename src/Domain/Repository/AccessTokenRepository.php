@@ -3,7 +3,10 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Entity\AccessToken;
+use App\Domain\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -30,5 +33,18 @@ class AccessTokenRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($accessToken);
         $this->getEntityManager()->flush();
+    }
+
+    public function deleteAllByUser(User $user): void
+    {
+        $this->createQueryBuilder('at')
+            ->update()
+            ->set('at.deletedAt', ':deletedAt')
+            ->where('at.user = :user')
+            ->andWhere('at.deletedAt IS NULL')
+            ->setParameter('deletedAt', new DateTimeImmutable(), Types::DATETIME_IMMUTABLE)
+            ->setParameter('user', (string)$user->getId())
+            ->getQuery()
+            ->execute();
     }
 }

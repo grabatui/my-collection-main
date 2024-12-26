@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Service\Registration\Dto;
+namespace App\Domain\Service\Auth\Registration\Dto;
 
 class RegisterDto
 {

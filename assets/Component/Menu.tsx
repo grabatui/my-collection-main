@@ -6,6 +6,7 @@ import RegisterForm from "./Form/RegisterForm";
 import {registerFormOpened, authFormOpened, menuProfileOpened} from "../Signal/MenuSignal";
 import {User} from "../Signal/GlobalSignal";
 import Loader from "./Loader";
+import {logout} from "../Api/Auth/Register";
 
 
 type state = {
@@ -41,6 +42,10 @@ export default class Menu extends Component<any, state> {
 
     toggleProfileDropdownMenu() {
         menuProfileOpened.value = !menuProfileOpened.value;
+    }
+
+    onLogoutClient() {
+        logout();
     }
 
     render(): ComponentChild {
@@ -180,6 +185,7 @@ export default class Menu extends Component<any, state> {
                     <a
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        onClick={this.onLogoutClient.bind(this)}
                     >Выйти</a>
                 </div>
             </div>

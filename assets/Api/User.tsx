@@ -1,5 +1,6 @@
 import {callEndpoint} from "./callEndpoint";
 import {User} from "../Signal/GlobalSignal";
+import {clearUser} from "../helpers/api";
 
 export interface UserMetadataResponse {
     data: {
@@ -25,9 +26,7 @@ export const getMetadata = (
     const onErrorWrapper = (response: any) => {
         // TODO: Global error
 
-        User.value = {
-            data: {},
-        };
+        clearUser();
 
         if (onError) {
             onError(response);

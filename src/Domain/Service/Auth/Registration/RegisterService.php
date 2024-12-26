@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Service\Registration;
+namespace App\Domain\Service\Auth\Registration;
 
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepository;
+use App\Domain\Service\Auth\Registration\Dto\RegisterDto;
 use App\Domain\Service\Password\PasswordHasher;
-use App\Domain\Service\Registration\Dto\RegisterDto;
 use Symfony\Component\Uid\Factory\UuidFactory;
 
 readonly class RegisterService

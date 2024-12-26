@@ -30,6 +30,9 @@ class AccessToken
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private DateTimeInterface $createdAt;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeInterface $deletedAt = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -44,6 +47,11 @@ class AccessToken
         $accessToken->setToken($token);
 
         return $accessToken;
+    }
+
+    public function delete(): void
+    {
+        $this->setDeletedAt(new DateTimeImmutable());
     }
 
     public function getId(): int
@@ -74,5 +82,15 @@ class AccessToken
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    public function getDeletedAt(): ?DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?DateTimeInterface $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
     }
 }

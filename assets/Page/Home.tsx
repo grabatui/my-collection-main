@@ -1,7 +1,7 @@
 import {Component, ComponentChild} from "preact";
 import Menu from "../Component/Menu";
 import {getMetadata} from "../Api/User";
-import {getAccessToken} from "../helpers/api";
+import {clearUser, getAccessToken} from "../helpers/api";
 import {User} from "../Signal/GlobalSignal";
 import {menuProfileOpened} from "../Signal/MenuSignal";
 
@@ -13,9 +13,7 @@ export default class Home extends Component<any, any> {
         if (getAccessToken()) {
             getMetadata();
         } else {
-            User.value = {
-                data: {},
-            }
+            clearUser();
         }
     }
 

@@ -8,7 +8,7 @@ use App\Adapter\Request\Api\V1\Auth\RegisterRequest;
 use App\Adapter\Response\Auth\RegisterResponse;
 use App\Adapter\Response\Auth\RegisterResponse\RegisterResponseData;
 use App\Domain\Entity\AccessToken;
-use App\Domain\Service\Registration\Dto\RegisterDto;
+use App\Domain\Service\Auth\Registration\Dto\RegisterDto;
 
 class RegisterMapper
 {
