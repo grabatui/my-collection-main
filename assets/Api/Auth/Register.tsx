@@ -10,12 +10,12 @@ export type registerRequest = {
 export interface RegisterResponse {
     data: {
         accessToken: string,
-    }
+    },
 }
 
 export const register = (
     data: registerRequest,
-    onSuccess?: (response: any) => void,
+    onSuccess?: (response: RegisterResponse) => void,
     onError?: (reason: any) => void,
 ) => {
     callEndpoint('/api/v1/auth/register', 'POST', data, onSuccess, onError);

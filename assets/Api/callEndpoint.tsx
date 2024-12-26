@@ -1,7 +1,9 @@
+import {clearAccessToken, getAccessToken, setAccessToken} from "../helpers/api";
+
 export interface ErrorResponse {
     data: Violation[],
     message: string,
-    resultCode: string,
+    resultCode: 'validation_error'|'internal_error',
 }
 
 export interface Violation {
@@ -17,20 +19,34 @@ export const callEndpoint = (
     onSuccess?: (response: any) => void,
     onError?: (reason: any) => void,
 ) => {
+    let headers = new Headers([
+        ['Content-Type', 'application/json'],
+        ['Accept', 'application/json'],
+    ]);
+
+    const accessToken = getAccessToken();
+
+    if (accessToken) {
+        headers.set('Authorization', 'Bearer ' + accessToken)
+    }
+
     fetch(
         endpoint,
         {
             method: method,
             body: data ? JSON.stringify(data) : null,
-            headers: [
-                ['Content-Type', 'application/json'],
-                ['Accept', 'application/json'],
-            ]
+            headers: headers,
         }
     )
-        .then((response) => response.json())
+        .then((response) => {
+            if (response.status === 401) {
+                clearAccessToken();
+                return {};
+            }
+
+            return response.json();
+        })
         .then((response: any) => {
-            console.log(response);
             if (
                 (response.resultCode === 'validation_error' || response.resultCode === 'internal_error')
                 && onError

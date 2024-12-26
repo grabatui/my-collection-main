@@ -30,7 +30,15 @@ export function setAccessToken(accessToken: string, expiredAt: Date): void {
     })
 }
 
-export function getAccessToken(): any {
+export function clearAccessToken(): void {
+    const cookies = new Cookies(null, {
+        path: '/',
+    });
+
+    cookies.set('accessToken', null);
+}
+
+export function getAccessToken(): string {
     const cookies = new Cookies(null, {
         path: '/',
     });

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Adapter\Controller\Api\V1\Auth;
 
 use App\Adapter\Controller\Api\AbstractController;
-use App\Adapter\Mapper\RegisterMapper;
+use App\Adapter\Mapper\Auth\RegisterMapper;
 use App\Adapter\Request\Api\V1\Auth\RegisterRequest;
 use App\Domain\Service\AccessToken\GenerateAccessTokenService;
 use App\Domain\Service\Registration\RegisterService;
@@ -24,7 +24,7 @@ class RegisterController extends AbstractController
 
     #[Route(
         '/api/v1/auth/register',
-        name: 'register',
+        name: 'auth_register',
         methods: 'POST',
     )]
     public function __invoke(

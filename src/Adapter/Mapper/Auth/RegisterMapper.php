@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Mapper;
+namespace App\Adapter\Mapper\Auth;
 
 use App\Adapter\Request\Api\V1\Auth\RegisterRequest;
 use App\Adapter\Response\Auth\RegisterResponse;

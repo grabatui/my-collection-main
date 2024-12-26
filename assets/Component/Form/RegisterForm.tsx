@@ -1,9 +1,10 @@
 import {Component, ComponentChild, RenderableProps} from "preact";
-import {menuReload, openAuthFromLogin} from "../../Signal/MenuSignal";
+import {openAuthFromLogin} from "../../Signal/MenuSignal";
 import {register, RegisterResponse} from "../../Api/Auth/Register";
 import {ErrorResponse} from "../../Api/callEndpoint";
 import {makeErrorsByDefaultResponse, setAccessToken} from "../../helpers/api";
 import Input from "./Field/Input";
+import {getMetadata} from "../../Api/User";
 
 
 type propTypes = {
@@ -63,9 +64,9 @@ export default class RegisterForm extends Component<propTypes, state> {
                 this.clearForm();
                 this.props.onClose();
 
-                setAccessToken(response.data.accessToken, new Date(Date.now() + 86400e3))
+                setAccessToken(response.data.accessToken, new Date(Date.now() + 86400e3 * 7))
 
-                menuReload.value = true
+                getMetadata();
             },
             (response: ErrorResponse) => {
                 this.setState({

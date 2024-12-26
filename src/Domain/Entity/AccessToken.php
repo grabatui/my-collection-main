@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\Repository\AccessTokenRepository;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,6 +26,14 @@ class AccessToken
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'accessTokens')]
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private DateTimeInterface $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
 
     public static function create(
         User $user,
@@ -59,5 +69,10 @@ class AccessToken
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function getCreatedAt(): DateTimeInterface
+    {
+        return $this->createdAt;
     }
 }
