@@ -1,5 +1,5 @@
 import {Component, ComponentChild, RenderableProps} from "preact";
-import {openRegisterFromLogin} from "../../Signal/MenuSignal";
+import {registerFormOpened} from "../../Signal/MenuSignal";
 import Input from "./Field/Input";
 
 
@@ -36,7 +36,7 @@ export default class LoginForm extends Component<propTypes, state> {
     }
 
     onRegisterClick() {
-        openRegisterFromLogin.value = true;
+        registerFormOpened.value = true;
 
         this.props.onClose();
         this.clearForm();

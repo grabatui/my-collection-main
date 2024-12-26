@@ -9,7 +9,7 @@ type propTypes = {
 }
 
 export default class Modal extends Component<propTypes, any> {
-    render(props?: RenderableProps<propTypes>, state?: Readonly<any>, context?: any): ComponentChild {
+    render(props?: RenderableProps<propTypes>): ComponentChild {
         return (
             <div
                 className={`fixed inset-0 flex justify-center items-center transition-colors ` + (props.isOpen ? 'visible bg-black/20' : 'invisible')}

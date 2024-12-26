@@ -1,9 +1,9 @@
-import {Component, ComponentChild, Fragment, RenderableProps} from "preact";
+import {Component, ComponentChild, Fragment} from "preact";
 import {Link} from "preact-router";
 import Modal from "./Modal";
 import LoginForm from "./Form/LoginForm";
 import RegisterForm from "./Form/RegisterForm";
-import {openRegisterFromLogin, openAuthFromLogin} from "../Signal/MenuSignal";
+import {registerFormOpened, authFormOpened, menuProfileOpened} from "../Signal/MenuSignal";
 import {User} from "../Signal/GlobalSignal";
 import Loader from "./Loader";
 
@@ -28,18 +28,22 @@ export default class Menu extends Component<any, state> {
     }
 
     closeLoginModal() {
-        openAuthFromLogin.value = false;
+        authFormOpened.value = false;
 
         this.setState({isLoginOpen: false});
     }
 
     closeRegisterModal() {
-        openRegisterFromLogin.value = false;
+        registerFormOpened.value = false;
 
         this.setState({isRegisterOpen: false});
     }
 
-    render(props?: RenderableProps<any>, state?: Readonly<any>, context?: any): ComponentChild {
+    toggleProfileDropdownMenu() {
+        menuProfileOpened.value = !menuProfileOpened.value;
+    }
+
+    render(): ComponentChild {
         return (
             <Fragment>
                 <nav className="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto">
@@ -70,50 +74,115 @@ export default class Menu extends Component<any, state> {
                         </div>
 
                         <div className="order-2 md:order-3">
-                            <div>
-                                {User.value
-                                    ? <button
-                                        className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2"
-                                        onClick={this.openLoginModal.bind(this)}
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-5 w-5"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-
-                                        <span>{User.value.data.name ?? 'Авторизуйтесь'}</span>
-                                    </button>
-                                    : <Loader />
-                                }
-                            </div>
+                            {User.value
+                                ? (User.value.data.name ? this.getAuthorizedButton() : this.getUnauthorizedButton())
+                                : <Loader/>
+                            }
                         </div>
                     </div>
                 </nav>
 
                 <Modal
-                    isOpen={this.state.isLoginOpen || openAuthFromLogin.value}
+                    isOpen={this.state.isLoginOpen || authFormOpened.value}
                     onClose={this.closeLoginModal.bind(this)}
                     title={"Авторизация"}
                 >
-                    <LoginForm onClose={this.closeLoginModal.bind(this)} />
+                    <LoginForm onClose={this.closeLoginModal.bind(this)}/>
                 </Modal>
 
                 <Modal
-                    isOpen={this.state.isRegisterOpen || openRegisterFromLogin.value}
+                    isOpen={this.state.isRegisterOpen || registerFormOpened.value}
                     onClose={this.closeRegisterModal.bind(this)}
                     title={"Регистрация"}
                 >
-                    <RegisterForm onClose={this.closeRegisterModal.bind(this)} />
+                    <RegisterForm onClose={this.closeRegisterModal.bind(this)}/>
                 </Modal>
             </Fragment>
+        );
+    }
+
+    getUnauthorizedButton(): ComponentChild {
+        return (
+            <div>
+                <button
+                    className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2"
+                    onClick={this.openLoginModal.bind(this)}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                        />
+                    </svg>
+
+                    <span>Авторизуйтесь</span>
+                </button>
+            </div>
+        );
+    }
+
+    getAuthorizedButton(): ComponentChild {
+        return (
+            <div
+                onClick={(event) => event.stopPropagation()}>
+                <button
+                    className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2 w-44"
+                    onClick={this.toggleProfileDropdownMenu.bind(this)}
+                >
+                    <svg
+                        className="w-2.5 h-2.5 ms-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 10 6"
+                        style={"transform: rotate(" + (menuProfileOpened.value ? '180' : '0') + "deg); transition: transform 0.1s;"}
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m1 1 4 4 4-4"
+                        />
+                    </svg>
+
+                    <span>{User.value.data.name}</span>
+                </button>
+
+                {this.getDropdownMenu()}
+            </div>
+        );
+    }
+
+    getDropdownMenu(): ComponentChild {
+        return (
+            <div
+                id="dropdownDivider"
+                className={'z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 ' + (menuProfileOpened.value ? 'block' : 'hidden')}
+                style="position: absolute; margin: 0px;"
+            >
+                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
+                    <li>
+                        <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >Профиль</a>
+                    </li>
+                </ul>
+
+                <div className="py-2">
+                    <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >Выйти</a>
+                </div>
+            </div>
         );
     }
 }

@@ -1,8 +1,9 @@
-import {Component, ComponentChild, RenderableProps} from "preact";
+import {Component, ComponentChild} from "preact";
 import Menu from "../Component/Menu";
 import {getMetadata} from "../Api/User";
 import {getAccessToken} from "../helpers/api";
 import {User} from "../Signal/GlobalSignal";
+import {menuProfileOpened} from "../Signal/MenuSignal";
 
 
 export default class Home extends Component<any, any> {
@@ -18,9 +19,13 @@ export default class Home extends Component<any, any> {
         }
     }
 
-    render(props?: RenderableProps<any>, state?: Readonly<any>, context?: any): ComponentChild {
+    closeAllOpenedMenu(): void {
+        menuProfileOpened.value = false;
+    }
+
+    render(): ComponentChild {
         return (
-            <div>
+            <div onClick={() => this.closeAllOpenedMenu()}>
                 <Menu />
 
                 <div>Home</div>

@@ -1,5 +1,5 @@
 import {Component, ComponentChild, RenderableProps} from "preact";
-import {openAuthFromLogin} from "../../Signal/MenuSignal";
+import {authFormOpened} from "../../Signal/MenuSignal";
 import {register, RegisterResponse} from "../../Api/Auth/Register";
 import {ErrorResponse} from "../../Api/callEndpoint";
 import {makeErrorsByDefaultResponse, setAccessToken} from "../../helpers/api";
@@ -44,7 +44,7 @@ export default class RegisterForm extends Component<propTypes, state> {
     }
 
     onAuthClick() {
-        openAuthFromLogin.value = true;
+        authFormOpened.value = true;
 
         this.props.onClose();
         this.clearForm();
