@@ -1,6 +1,6 @@
 import {Component, ComponentChild, RenderableProps} from "preact";
 import {authFormOpened} from "../../Signal/MenuSignal";
-import {register, RegisterResponse} from "../../Api/Auth/Register";
+import {register, RegisterResponse} from "../../Api/Auth";
 import {ErrorResponse} from "../../Api/callEndpoint";
 import {makeErrorsByDefaultResponse, setAccessToken} from "../../helpers/api";
 import Input from "./Field/Input";
@@ -60,11 +60,9 @@ export default class RegisterForm extends Component<propTypes, state> {
                 password: this.state.password,
                 passwordRepeat: this.state.passwordRepeat,
             },
-            (response: RegisterResponse) => {
+            (_: RegisterResponse) => {
                 this.clearForm();
                 this.props.onClose();
-
-                setAccessToken(response.data.accessToken, new Date(Date.now() + 86400e3 * 7))
 
                 getMetadata();
             },

@@ -17,7 +17,7 @@ security:
                 token_handler: App\Infrastructure\Security\AccessTokenHandler
 
     access_control:
-        - { path: ^/api/v1/auth/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/auth/auth, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

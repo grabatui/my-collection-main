@@ -1,6 +1,10 @@
 import {Component, ComponentChild, RenderableProps} from "preact";
 import {registerFormOpened} from "../../Signal/MenuSignal";
 import Input from "./Field/Input";
+import {login, RegisterResponse} from "../../Api/Auth";
+import {getMetadata} from "../../Api/User";
+import {ErrorResponse} from "../../Api/callEndpoint";
+import {makeErrorsByDefaultResponse} from "../../helpers/api";
 
 
 type propTypes = {
@@ -10,6 +14,7 @@ type propTypes = {
 type state = {
     email: string,
     password: string,
+    error?: string,
     errors: any,
 }
 
@@ -20,6 +25,7 @@ export default class LoginForm extends Component<propTypes, state> {
         this.state = {
             email: '',
             password: '',
+            error: null,
             errors: {},
         }
     }
@@ -32,6 +38,7 @@ export default class LoginForm extends Component<propTypes, state> {
                 ...this.state.errors,
                 [field]: null,
             },
+            error: null,
         });
     }
 
@@ -45,7 +52,31 @@ export default class LoginForm extends Component<propTypes, state> {
     onSubmit(event: Event) {
         event.preventDefault();
 
-        // TODO
+        login(
+            {
+                email: this.state.email,
+                password: this.state.password,
+            },
+            (_: RegisterResponse) => {
+                this.clearForm();
+                this.props.onClose();
+
+                getMetadata();
+            },
+            (response: ErrorResponse) => {
+                if (response.resultCode !== 'validation_error') {
+                    this.setState({
+                        ...this.state,
+                        error: response.message,
+                    });
+                } else {
+                    this.setState({
+                        ...this.state,
+                        errors: makeErrorsByDefaultResponse(response),
+                    });
+                }
+            },
+        )
     }
 
     clearForm() {
@@ -53,6 +84,7 @@ export default class LoginForm extends Component<propTypes, state> {
             email: '',
             password: '',
             errors: {},
+            error: null,
         })
     }
 
@@ -83,6 +115,8 @@ export default class LoginForm extends Component<propTypes, state> {
                         isRequired={true}
                         placeholder="••••••••"
                     />
+
+                    {this.state.error && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{this.state.error}</p>}
 
                     <div className="flex justify-between">
                         <a href="#" className="text-sm text-blue-700 hover:underline dark:text-blue-500">Забыли пароль?</a>

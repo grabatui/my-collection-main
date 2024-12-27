@@ -9,7 +9,7 @@ export interface EmptyResponse {
 export interface ErrorResponse {
     data: Violation[],
     message: string,
-    resultCode: 'validation_error'|'internal_error',
+    resultCode: 'validation_error'|'internal_error'|string,
 }
 
 export interface Violation {
@@ -49,12 +49,6 @@ export const callEndpoint = (
                 if (response.status === 401) {
                     clearUser();
                 }
-
-                if (onError) {
-                    onError(response);
-                }
-
-                return {};
             }
 
             return response.json();
@@ -72,7 +66,10 @@ export const callEndpoint = (
                 return
             }
 
-            if (typeof response === 'object' && Object.keys(response).length <= 0) {
+            if (
+                (typeof response === 'object' && Object.keys(response).length <= 0 )
+                || response.resultCode !== 'success'
+            ) {
                 onError(response);
                 return;
             }

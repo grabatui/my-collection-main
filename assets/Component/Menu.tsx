@@ -6,7 +6,7 @@ import RegisterForm from "./Form/RegisterForm";
 import {registerFormOpened, authFormOpened, menuProfileOpened} from "../Signal/MenuSignal";
 import {User} from "../Signal/GlobalSignal";
 import Loader from "./Loader";
-import {logout} from "../Api/Auth/Register";
+import {logout} from "../Api/Auth";
 
 
 type state = {

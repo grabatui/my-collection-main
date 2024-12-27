@@ -4,6 +4,10 @@ import {User} from "../Signal/GlobalSignal";
 
 
 export function makeErrorsByDefaultResponse(response: ErrorResponse): object {
+    if (response.resultCode !== 'validation_error') {
+        return {};
+    }
+
     let rawResult: any = [];
     response.data.forEach((violation: Violation) => {
         if (!rawResult.hasOwnProperty(violation.path)) {
