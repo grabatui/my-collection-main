@@ -19,7 +19,8 @@ readonly class LoginService
         private AccessTokenRepository $accessTokenRepository,
         private PasswordHasher $passwordHasher,
         private LoginRateLimiter $loginRateLimiter,
-    ) {}
+    ) {
+    }
 
     public function execute(
         LoginDto $dto,

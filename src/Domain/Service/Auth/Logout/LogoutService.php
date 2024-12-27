@@ -11,7 +11,8 @@ readonly class LogoutService
 {
     public function __construct(
         private AccessTokenRepository $accessTokenRepository,
-    ) {}
+    ) {
+    }
 
     public function execute(User $user): void
     {

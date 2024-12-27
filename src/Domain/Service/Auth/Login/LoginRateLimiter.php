@@ -11,7 +11,8 @@ readonly class LoginRateLimiter
 {
     public function __construct(
         private RateLimiterFactory $anonymousApiLimiter,
-    ) {}
+    ) {
+    }
 
     public function acceptByClientIp(string $clientIp): void
     {

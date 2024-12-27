@@ -7,7 +7,6 @@ namespace App\Adapter\Controller\Api\V1\Auth;
 use App\Adapter\Controller\Api\AbstractController;
 use App\Domain\Entity\User;
 use App\Domain\Service\Auth\Logout\LogoutService;
-use DomainException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -16,7 +15,8 @@ class LogoutController extends AbstractController
 {
     public function __construct(
         private readonly LogoutService $logoutService,
-    ) {}
+    ) {
+    }
 
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route(
@@ -28,7 +28,7 @@ class LogoutController extends AbstractController
     {
         $user = $this->getUser();
         if (!($user instanceof User)) {
-            throw new DomainException();
+            throw new \DomainException();
         }
 
         $this->logoutService->execute($user);

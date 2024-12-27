@@ -8,12 +8,13 @@ readonly class PasswordHasher
 {
     public function __construct(
         private string $salt,
-    ) {}
+    ) {
+    }
 
     public function execute(string $originalPassword): string
     {
         return password_hash(
-            password: $this->salt . $originalPassword . $this->salt,
+            password: $this->salt.$originalPassword.$this->salt,
             algo: PASSWORD_DEFAULT,
         );
     }

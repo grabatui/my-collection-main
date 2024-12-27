@@ -7,7 +7,6 @@ namespace App\Adapter\Controller\Api\V1\User;
 use App\Adapter\Controller\Api\AbstractController;
 use App\Adapter\Mapper\User\GetMetadataMapper;
 use App\Domain\Entity\User;
-use DomainException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -16,7 +15,8 @@ class GetMetadataController extends AbstractController
 {
     public function __construct(
         private readonly GetMetadataMapper $getMetadataMapper,
-    ) {}
+    ) {
+    }
 
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route(
@@ -28,7 +28,7 @@ class GetMetadataController extends AbstractController
     {
         $user = $this->getUser();
         if (!($user instanceof User)) {
-            throw new DomainException();
+            throw new \DomainException();
         }
 
         return $this->responseFactory->apiResponse(

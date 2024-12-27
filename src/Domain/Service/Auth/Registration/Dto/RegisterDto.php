@@ -10,5 +10,6 @@ class RegisterDto
         public string $email,
         public string $name,
         public string $password,
-    ) {}
+    ) {
+    }
 }

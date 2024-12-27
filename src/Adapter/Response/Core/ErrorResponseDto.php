@@ -10,7 +10,8 @@ readonly class ErrorResponseDto
         public string $resultCode,
         public string $message = '',
         /**
-         * Пока не используется
+         * Пока не используется.
+         *
          * @var null[]
          */
         public array $data = [],

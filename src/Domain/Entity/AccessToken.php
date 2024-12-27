@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\Repository\AccessTokenRepository;
-use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,14 +26,14 @@ class AccessToken
     private User $user;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private DateTimeInterface $createdAt;
+    private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private ?DateTimeInterface $deletedAt = null;
+    private ?\DateTimeInterface $deletedAt = null;
 
     public function __construct()
     {
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public static function create(
@@ -51,7 +49,7 @@ class AccessToken
 
     public function delete(): void
     {
-        $this->setDeletedAt(new DateTimeImmutable());
+        $this->setDeletedAt(new \DateTimeImmutable());
     }
 
     public function getId(): int
@@ -79,17 +77,17 @@ class AccessToken
         $this->user = $user;
     }
 
-    public function getCreatedAt(): DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function getDeletedAt(): ?DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeInterface $deletedAt): void
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
     }

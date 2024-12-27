@@ -20,7 +20,8 @@ class LoginController extends AbstractController
         private readonly LoginMapper $loginMapper,
         private readonly LoginService $loginService,
         private readonly GenerateAccessTokenService $generateAccessTokenService,
-    ) {}
+    ) {
+    }
 
     #[Route(
         '/api/v1/auth/login',

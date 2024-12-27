@@ -42,6 +42,9 @@ class ResponseFactory
         return $this->apiResponse($response, Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function badRequestDto(
         string $message,
         string $code = 'bad_request',
@@ -58,12 +61,15 @@ class ResponseFactory
     {
         $response = new ErrorResponseDto(
             resultCode: 'internal_error',
-            message: $message ?: static::CRITICAL_EXCEPTION_MESSAGE,
+            message: $message ?: self::CRITICAL_EXCEPTION_MESSAGE,
         );
 
         return $this->apiResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * @param array<string, string|string[]> $headers
+     */
     public function apiResponse(mixed $data, int $status = Response::HTTP_OK, array $headers = []): JsonResponse
     {
         return new JsonResponse($this->jsonSerialize($data), $status, $headers, true);

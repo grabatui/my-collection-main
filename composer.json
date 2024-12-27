@@ -28,11 +28,13 @@
         "symfony/uid": "6.4.*",
         "symfony/validator": "6.4.*",
         "symfony/webpack-encore-bundle": "^1.16",
-        "symfony/yaml": "6.4.*"
+        "symfony/yaml": "6.4.*",
+        "symfonycasts/reset-password-bundle": "^1.23"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.49",
         "phpstan/phpstan": "^1.9",
+        "phpstan/phpstan-doctrine": "^1.3",
         "phpunit/phpunit": "^9.5"
     },
     "config": {

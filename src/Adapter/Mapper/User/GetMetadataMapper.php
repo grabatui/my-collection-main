@@ -14,7 +14,7 @@ class GetMetadataMapper
     {
         return new GetMetadataResponse(
             data: new GetMetadataResponseData(
-                id: (string)$user->getId(),
+                id: (string) $user->getId(),
                 name: $user->getName(),
                 email: $user->getEmail(),
                 roles: $user->getRoles(),
