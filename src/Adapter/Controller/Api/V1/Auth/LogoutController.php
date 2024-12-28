@@ -6,6 +6,7 @@ namespace App\Adapter\Controller\Api\V1\Auth;
 
 use App\Adapter\Controller\Api\AbstractController;
 use App\Domain\Entity\User;
+use App\Domain\Exception\User\UserNotFoundException;
 use App\Domain\Service\Auth\Logout\LogoutService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,7 @@ class LogoutController extends AbstractController
     {
         $user = $this->getUser();
         if (!($user instanceof User)) {
-            throw new \DomainException();
+            throw new UserNotFoundException();
         }
 
         $this->logoutService->execute($user);

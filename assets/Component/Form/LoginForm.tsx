@@ -1,24 +1,24 @@
-import {Component, ComponentChild, RenderableProps} from "preact";
-import {registerFormOpened} from "../../Signal/MenuSignal";
+import {ComponentChild} from "preact";
+import {registerFormOpened, resetPasswordFormOpened} from "../../Signal/MenuSignal";
 import Input from "./Field/Input";
 import {login, RegisterResponse} from "../../Api/Auth";
 import {getMetadata} from "../../Api/User";
 import {ErrorResponse} from "../../Api/callEndpoint";
-import {makeErrorsByDefaultResponse} from "../../helpers/api";
+import AbstractModalForm, {ModalFormPropTypes, ModalFormState} from "./AbstractModalForm";
 
 
-type propTypes = {
+interface PropTypes extends ModalFormPropTypes {
     onClose?: () => void;
 }
 
-type state = {
+interface State extends ModalFormState {
     email: string,
     password: string,
     error?: string,
     errors: any,
 }
 
-export default class LoginForm extends Component<propTypes, state> {
+export default class LoginForm extends AbstractModalForm<PropTypes, State> {
     constructor() {
         super();
 
@@ -30,20 +30,15 @@ export default class LoginForm extends Component<propTypes, state> {
         }
     }
 
-    onChangeStateValue(field: string, value: any) {
-        this.setState({
-            ...this.state,
-            [field]: value,
-            errors: {
-                ...this.state.errors,
-                [field]: null,
-            },
-            error: null,
-        });
-    }
-
     onRegisterClick() {
         registerFormOpened.value = true;
+
+        this.props.onClose();
+        this.clearForm();
+    }
+
+    onResetPasswordClick() {
+        resetPasswordFormOpened.value = true;
 
         this.props.onClose();
         this.clearForm();
@@ -63,19 +58,7 @@ export default class LoginForm extends Component<propTypes, state> {
 
                 getMetadata();
             },
-            (response: ErrorResponse) => {
-                if (response.resultCode !== 'validation_error') {
-                    this.setState({
-                        ...this.state,
-                        error: response.message,
-                    });
-                } else {
-                    this.setState({
-                        ...this.state,
-                        errors: makeErrorsByDefaultResponse(response),
-                    });
-                }
-            },
+            (response: ErrorResponse) => this.processErrorResponse(response),
         )
     }
 
@@ -88,7 +71,7 @@ export default class LoginForm extends Component<propTypes, state> {
         })
     }
 
-    render(props?: RenderableProps<any>, state?: Readonly<any>, context?: any): ComponentChild {
+    render(): ComponentChild {
         return (
             <div className="p-4 md:p-5">
                 <form className="space-y-4" action="#" onSubmit={this.onSubmit.bind(this)}>
@@ -119,7 +102,11 @@ export default class LoginForm extends Component<propTypes, state> {
                     {this.state.error && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{this.state.error}</p>}
 
                     <div className="flex justify-between">
-                        <a href="#" className="text-sm text-blue-700 hover:underline dark:text-blue-500">Забыли пароль?</a>
+                        <a
+                            href="#"
+                            className="text-sm text-blue-700 hover:underline dark:text-blue-500"
+                            onClick={this.onResetPasswordClick.bind(this)}
+                        >Забыли пароль?</a>
                     </div>
 
                     <button

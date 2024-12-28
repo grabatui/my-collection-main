@@ -25,6 +25,10 @@ export interface LoginResponse {
     },
 }
 
+export type sendPasswordRequestRequest = {
+    email: string,
+}
+
 export const login = (
     data: loginRequest,
     onSuccess?: (response: LoginResponse) => void,
@@ -71,3 +75,11 @@ export const logout = (
 
     callEndpoint('/api/v1/auth/logout', 'POST', null, onSuccessWrapper, onError);
 };
+
+export const sendResetPasswordRequest = (
+    data: sendPasswordRequestRequest,
+    onSuccess?: (response: EmptyResponse) => void,
+    onError?: (reason: any) => void,
+) => {
+    callEndpoint('/api/v1/auth/send-reset-password-request', 'POST', data, onSuccess, onError);
+}

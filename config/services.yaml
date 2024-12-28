@@ -1,5 +1,4 @@
 parameters:
-  app.password_salt: '%env(PASSWORD_SALT)%'
   app.token_ttl: 86400
 
 services:
@@ -16,7 +15,7 @@ services:
 
   App\Domain\Service\Password\PasswordHasher:
     arguments:
-      $salt: '%app.password_salt%'
+      $salt: '%env(PASSWORD_SALT)%'
 
   App\Infrastructure\Security\AccessTokenHandler:
     class: \App\Infrastructure\Security\AccessTokenHandler
@@ -33,3 +32,9 @@ services:
     class: \App\Adapter\Response\Core\Subscriber\ExceptionResponseEventSubscriber
     arguments:
       $isShowInternalException: '%env(bool:SHOW_500_DETAIL_ERROR)%'
+
+  App\Domain\Service\Mail\MailSender:
+    class: \App\Domain\Service\Mail\MailSender
+    arguments:
+      $currentDomain: '%env(CURRENT_DOMAIN)%'
+      $defaultFrom: '%env(MAIL_FROM)%'

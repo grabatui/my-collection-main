@@ -3,10 +3,11 @@ import {Link} from "preact-router";
 import Modal from "./Modal";
 import LoginForm from "./Form/LoginForm";
 import RegisterForm from "./Form/RegisterForm";
-import {registerFormOpened, authFormOpened, menuProfileOpened} from "../Signal/MenuSignal";
+import {registerFormOpened, authFormOpened, menuProfileOpened, resetPasswordFormOpened} from "../Signal/MenuSignal";
 import {User} from "../Signal/GlobalSignal";
 import Loader from "./Loader";
 import {logout} from "../Api/Auth";
+import ResetPasswordForm from "./Form/ResetPasswordForm";
 
 
 type state = {
@@ -38,6 +39,10 @@ export default class Menu extends Component<any, state> {
         registerFormOpened.value = false;
 
         this.setState({isRegisterOpen: false});
+    }
+
+    closeResetPasswordModal() {
+        resetPasswordFormOpened.value = false;
     }
 
     toggleProfileDropdownMenu() {
@@ -92,7 +97,7 @@ export default class Menu extends Component<any, state> {
                     onClose={this.closeLoginModal.bind(this)}
                     title={"Авторизация"}
                 >
-                    <LoginForm onClose={this.closeLoginModal.bind(this)}/>
+                    <LoginForm onClose={this.closeLoginModal.bind(this)} />
                 </Modal>
 
                 <Modal
@@ -100,7 +105,15 @@ export default class Menu extends Component<any, state> {
                     onClose={this.closeRegisterModal.bind(this)}
                     title={"Регистрация"}
                 >
-                    <RegisterForm onClose={this.closeRegisterModal.bind(this)}/>
+                    <RegisterForm onClose={this.closeRegisterModal.bind(this)} />
+                </Modal>
+
+                <Modal
+                    isOpen={resetPasswordFormOpened.value}
+                    onClose={this.closeResetPasswordModal.bind(this)}
+                    title={"Сброс пароля"}
+                >
+                    <ResetPasswordForm onClose={this.closeResetPasswordModal.bind(this)} />
                 </Modal>
             </Fragment>
         );

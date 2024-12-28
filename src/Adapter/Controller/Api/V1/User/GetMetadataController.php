@@ -7,6 +7,7 @@ namespace App\Adapter\Controller\Api\V1\User;
 use App\Adapter\Controller\Api\AbstractController;
 use App\Adapter\Mapper\User\GetMetadataMapper;
 use App\Domain\Entity\User;
+use App\Domain\Exception\User\UserNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -28,7 +29,7 @@ class GetMetadataController extends AbstractController
     {
         $user = $this->getUser();
         if (!($user instanceof User)) {
-            throw new \DomainException();
+            throw new UserNotFoundException();
         }
 
         return $this->responseFactory->apiResponse(

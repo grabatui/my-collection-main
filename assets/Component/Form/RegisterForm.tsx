@@ -1,17 +1,17 @@
-import {Component, ComponentChild, RenderableProps} from "preact";
+import {ComponentChild} from "preact";
 import {authFormOpened} from "../../Signal/MenuSignal";
 import {register, RegisterResponse} from "../../Api/Auth";
 import {ErrorResponse} from "../../Api/callEndpoint";
-import {makeErrorsByDefaultResponse, setAccessToken} from "../../helpers/api";
 import Input from "./Field/Input";
 import {getMetadata} from "../../Api/User";
+import AbstractModalForm, {ModalFormPropTypes, ModalFormState} from "./AbstractModalForm";
 
 
-type propTypes = {
+interface PropTypes extends ModalFormPropTypes {
     onClose?: () => void;
 }
 
-type state = {
+interface State extends ModalFormState {
     email: string,
     name: string,
     password: string,
@@ -19,7 +19,7 @@ type state = {
     errors: any,
 }
 
-export default class RegisterForm extends Component<propTypes, state> {
+export default class RegisterForm extends AbstractModalForm<PropTypes, State> {
     constructor() {
         super();
 
@@ -30,17 +30,6 @@ export default class RegisterForm extends Component<propTypes, state> {
             passwordRepeat: '',
             errors: {},
         }
-    }
-
-    onChangeStateValue(field: string, value: any) {
-        this.setState({
-            ...this.state,
-            [field]: value,
-            errors: {
-                ...this.state.errors,
-                [field]: null,
-            },
-        });
     }
 
     onAuthClick() {
@@ -66,12 +55,7 @@ export default class RegisterForm extends Component<propTypes, state> {
 
                 getMetadata();
             },
-            (response: ErrorResponse) => {
-                this.setState({
-                    ...this.state,
-                    errors: makeErrorsByDefaultResponse(response),
-                });
-            },
+            (response: ErrorResponse) => this.processErrorResponse(response),
         );
     }
 
@@ -85,7 +69,7 @@ export default class RegisterForm extends Component<propTypes, state> {
         });
     }
 
-    render(props?: RenderableProps<any>, state?: Readonly<any>, context?: any): ComponentChild {
+    render(): ComponentChild {
         return (
             <div className="p-4 md:p-5">
                 <form className="space-y-4" action="#" onSubmit={this.onSubmit.bind(this)}>
