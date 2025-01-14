@@ -64,6 +64,8 @@ cs-fixer:
 
 
 ### Database
+p-db-recreate: p-db-drop p-db-create p-migrations-migrate
+
 p-migrations-diff:
 	$(SYMFONY) doctrine:migrations:diff --no-debug
 

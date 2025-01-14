@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AccessTokenRepository::class)]
 #[ORM\Table(name: 'access_token')]
 #[ORM\Index(name: 'index__access_token__user_id', fields: ['user'])]
+#[ORM\Index(name: 'index__access_token__access_token', fields: ['accessToken'])]
+#[ORM\Index(name: 'index__access_token__refresh_token', fields: ['refreshToken'])]
 class AccessToken
 {
     #[ORM\Id]
@@ -19,7 +21,10 @@ class AccessToken
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
-    private string $token;
+    private string $accessToken;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private string $refreshToken;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'accessTokens')]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,13 +43,15 @@ class AccessToken
 
     public static function create(
         User $user,
-        string $token,
+        string $accessToken,
+        string $refreshToken,
     ): self {
-        $accessToken = new self();
-        $accessToken->setUser($user);
-        $accessToken->setToken($token);
+        $entity = new self();
+        $entity->setUser($user);
+        $entity->setAccessToken($accessToken);
+        $entity->setRefreshToken($refreshToken);
 
-        return $accessToken;
+        return $entity;
     }
 
     public function delete(): void
@@ -57,14 +64,24 @@ class AccessToken
         return $this->id;
     }
 
-    public function getToken(): string
+    public function getAccessToken(): string
     {
-        return $this->token;
+        return $this->accessToken;
     }
 
-    public function setToken(string $token): void
+    public function setAccessToken(string $accessToken): void
     {
-        $this->token = $token;
+        $this->accessToken = $accessToken;
+    }
+
+    public function getRefreshToken(): string
+    {
+        return $this->refreshToken;
+    }
+
+    public function setRefreshToken(string $refreshToken): void
+    {
+        $this->refreshToken = $refreshToken;
     }
 
     public function getUser(): User

@@ -2,6 +2,10 @@ import {ErrorResponse, Violation} from "../Api/callEndpoint";
 import Cookies from "universal-cookie";
 import {User} from "../Signal/GlobalSignal";
 
+interface Tokens {
+    accessToken: string
+    refreshToken: string
+}
 
 export function makeErrorsByDefaultResponse(response: ErrorResponse): object {
     if (response.resultCode !== 'validation_error') {
@@ -25,14 +29,18 @@ export function makeErrorsByDefaultResponse(response: ErrorResponse): object {
     return result;
 }
 
-export function setAccessToken(accessToken: string, expiredAt: Date): void {
+export function setAccessToken(accessToken: string, refreshToken: string, expiredAt: Date): void {
     const cookies = new Cookies(null, {
         path: '/',
     });
 
-    cookies.set('accessToken', accessToken, {
-        expires: expiredAt,
-    })
+    cookies.set(
+        'accessToken',
+        {accessToken, refreshToken},
+        {
+            expires: expiredAt,
+        }
+    );
 }
 
 export function clearAccessToken(): void {
@@ -43,7 +51,7 @@ export function clearAccessToken(): void {
     cookies.set('accessToken', null);
 }
 
-export function getAccessToken(): string {
+export function getAccessToken(): Tokens {
     const cookies = new Cookies(null, {
         path: '/',
     });

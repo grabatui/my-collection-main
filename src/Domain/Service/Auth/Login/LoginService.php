@@ -9,6 +9,7 @@ use App\Domain\Exception\Auth\LoginOrPasswordIsIncorrect;
 use App\Domain\Repository\AccessTokenRepository;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Service\Auth\Login\Dto\LoginDto;
+use App\Domain\Service\Auth\AuthRateLimiter;
 use App\Domain\Service\Password\PasswordHasher;
 
 readonly class LoginService
@@ -17,7 +18,7 @@ readonly class LoginService
         private UserRepository $userRepository,
         private AccessTokenRepository $accessTokenRepository,
         private PasswordHasher $passwordHasher,
-        private LoginRateLimiter $loginRateLimiter,
+        private AuthRateLimiter $authRateLimiter,
     ) {
     }
 
@@ -36,7 +37,7 @@ readonly class LoginService
         }
 
         if ($clientIp) {
-            $this->loginRateLimiter->acceptByClientIp($clientIp);
+            $this->authRateLimiter->acceptByClientIp($clientIp);
         }
 
         $this->accessTokenRepository->deleteAllByUser($user);

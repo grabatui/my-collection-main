@@ -1,4 +1,5 @@
-import {clearUser, getAccessToken} from "../helpers/api";
+import {clearAccessToken, clearUser, getAccessToken} from "../helpers/api";
+import {refreshToken, RefreshTokenResponse} from "./Auth";
 
 export interface EmptyResponse {
     data: object,
@@ -33,7 +34,7 @@ export const callEndpoint = (
     const accessToken = getAccessToken();
 
     if (accessToken) {
-        headers.set('Authorization', 'Bearer ' + accessToken)
+        headers.set('Authorization', 'Bearer ' + accessToken.accessToken)
     }
 
     fetch(
@@ -47,7 +48,20 @@ export const callEndpoint = (
         .then((response) => {
             if (response.status < 200 || response.status > 399) {
                 if (response.status === 401) {
-                    clearUser();
+                    tryToRefreshToken(
+                        (_: RefreshTokenResponse) => {
+                            callEndpoint(endpoint, method, data, onSuccess, onError);
+
+                            throw new Error('__token_refreshed__');
+                        },
+                        (error: Error) => {
+                            if (error.message !== '__token_refreshed__') {
+                                clearUser();
+                            }
+                        }
+                    )
+
+                    return new Promise(() => {{}});
                 }
             }
 
@@ -67,8 +81,11 @@ export const callEndpoint = (
             }
 
             if (
-                (typeof response === 'object' && Object.keys(response).length <= 0 )
-                || response.resultCode !== 'success'
+                (
+                    (typeof response === 'object' && Object.keys(response).length <= 0 )
+                    || response.resultCode !== 'success'
+                )
+                && onError
             ) {
                 onError(response);
                 return;
@@ -79,6 +96,10 @@ export const callEndpoint = (
             }
         })
         .catch((reason: any) => {
+            if (reason instanceof Error && reason.message === '__token_refreshed__') {
+                return;
+            }
+
             if (onError) {
                 if (process.env.NODE_ENV === 'development') {
                     console.error(reason);
@@ -87,4 +108,21 @@ export const callEndpoint = (
                 onError(reason);
             }
         });
+}
+
+const tryToRefreshToken = (
+    onSuccess: (response: RefreshTokenResponse) => void,
+    onError: (reason: any) => void,
+) => {
+    const tokens = getAccessToken();
+
+    clearAccessToken();
+
+    if (tokens.refreshToken) {
+        refreshToken(
+            {refreshToken: tokens.refreshToken},
+            onSuccess,
+            onError
+        );
+    }
 }

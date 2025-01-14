@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Response\Auth\RegisterResponse;
+namespace App\Adapter\Response\Auth\RefreshTokenResponse;
 
-readonly class RegisterResponseData
+class RefreshTokenResponseData
 {
     public function __construct(
         public string $accessToken,

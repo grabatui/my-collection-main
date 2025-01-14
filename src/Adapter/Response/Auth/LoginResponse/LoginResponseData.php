@@ -8,6 +8,7 @@ readonly class LoginResponseData
 {
     public function __construct(
         public string $accessToken,
+        public string $refreshToken,
     ) {
     }
 }

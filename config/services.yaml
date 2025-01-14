@@ -17,16 +17,16 @@ services:
     arguments:
       $salt: '%env(PASSWORD_SALT)%'
 
-  App\Infrastructure\Security\AccessTokenHandler:
-    class: \App\Infrastructure\Security\AccessTokenHandler
-    arguments:
-      $secret: '%env(SECRET_TOKEN_STRING)%'
-
   App\Domain\Service\AccessToken\TokenFactory:
     class: \App\Domain\Service\AccessToken\TokenFactory
     arguments:
       $secret: '%env(SECRET_TOKEN_STRING)%'
       $tokenTtl: '%app.token_ttl%'
+
+  App\Domain\Service\AccessToken\TokenValidator:
+    class: \App\Domain\Service\AccessToken\TokenValidator
+    arguments:
+      $secret: '%env(SECRET_TOKEN_STRING)%'
 
   App\Adapter\Response\Core\Subscriber\ExceptionResponseEventSubscriber:
     class: \App\Adapter\Response\Core\Subscriber\ExceptionResponseEventSubscriber

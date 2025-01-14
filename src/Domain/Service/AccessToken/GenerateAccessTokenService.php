@@ -20,7 +20,8 @@ class GenerateAccessTokenService
     {
         $accessToken = AccessToken::create(
             user: $user,
-            token: $this->tokenFactory->generate($user),
+            accessToken: $this->tokenFactory->generateAccessToken($user),
+            refreshToken: $this->tokenFactory->generateRefreshToken($user),
         );
 
         $this->accessTokenRepository->save($accessToken);

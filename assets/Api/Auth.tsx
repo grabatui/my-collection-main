@@ -11,6 +11,7 @@ export type registerRequest = {
 export interface RegisterResponse {
     data: {
         accessToken: string,
+        refreshToken: string,
     },
 }
 
@@ -22,6 +23,18 @@ export type loginRequest = {
 export interface LoginResponse {
     data: {
         accessToken: string,
+        refreshToken: string,
+    },
+}
+
+export type refreshTokenRequest = {
+    refreshToken: string,
+}
+
+export interface RefreshTokenResponse {
+    data: {
+        accessToken: string,
+        refreshToken: string,
     },
 }
 
@@ -41,7 +54,7 @@ export const login = (
     onError?: (reason: any) => void,
 ) => {
     const onSuccessWrapper = (response: LoginResponse) => {
-        setAccessToken(response.data.accessToken, new Date(Date.now() + 86400e3 * 7))
+        setAccessToken(response.data.accessToken, response.data.refreshToken, new Date(Date.now() + 86400e3 * 7))
 
         if (onSuccess) {
             onSuccess(response);
@@ -57,7 +70,7 @@ export const register = (
     onError?: (reason: any) => void,
 ) => {
     const onSuccessWrapper = (response: RegisterResponse) => {
-        setAccessToken(response.data.accessToken, new Date(Date.now() + 86400e3 * 7))
+        setAccessToken(response.data.accessToken, response.data.refreshToken, new Date(Date.now() + 86400e3 * 7))
 
         if (onSuccess) {
             onSuccess(response);
@@ -81,6 +94,22 @@ export const logout = (
 
     callEndpoint('/api/v1/auth/logout', 'POST', null, onSuccessWrapper, onError);
 };
+
+export const refreshToken = (
+    data: refreshTokenRequest,
+    onSuccess?: (response: RefreshTokenResponse) => void,
+    onError?: (reason: any) => void,
+) => {
+    const onSuccessWrapper = (response: RefreshTokenResponse) => {
+        setAccessToken(response.data.accessToken, response.data.refreshToken, new Date(Date.now() + 86400e3 * 7))
+
+        if (onSuccess) {
+            onSuccess(response);
+        }
+    }
+
+    callEndpoint('/api/v1/auth/refresh-token', 'POST', data, onSuccessWrapper, onError);
+}
 
 export const sendResetPasswordRequest = (
     data: sendPasswordRequestRequest,

@@ -23,9 +23,14 @@ class AccessTokenRepository extends ServiceEntityRepository
         parent::__construct($registry, AccessToken::class);
     }
 
-    public function findOneByToken(string $token): ?AccessToken
+    public function findOneByAccessToken(string $token): ?AccessToken
     {
-        return $this->findOneBy(['token' => $token]);
+        return $this->findOneBy(['accessToken' => $token]);
+    }
+
+    public function findOneByRefreshToken(string $token): ?AccessToken
+    {
+        return $this->findOneBy(['refreshToken' => $token]);
     }
 
     public function save(AccessToken $accessToken): void

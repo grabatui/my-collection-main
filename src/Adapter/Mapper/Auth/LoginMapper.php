@@ -6,6 +6,7 @@ namespace App\Adapter\Mapper\Auth;
 
 use App\Adapter\Request\Api\V1\Auth\LoginRequest;
 use App\Adapter\Response\Auth\LoginResponse;
+use App\Adapter\Response\Auth\LoginResponse\LoginResponseData;
 use App\Domain\Entity\AccessToken;
 use App\Domain\Service\Auth\Login\Dto\LoginDto;
 
@@ -22,8 +23,9 @@ class LoginMapper
     public function fromDtoToResponse(AccessToken $accessToken): LoginResponse
     {
         return new LoginResponse(
-            data: new LoginResponse\LoginResponseData(
-                accessToken: $accessToken->getToken(),
+            data: new LoginResponseData(
+                accessToken: $accessToken->getAccessToken(),
+                refreshToken: $accessToken->getRefreshToken(),
             ),
         );
     }

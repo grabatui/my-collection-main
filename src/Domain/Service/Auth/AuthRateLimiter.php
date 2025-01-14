@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Service\Auth\Login;
+namespace App\Domain\Service\Auth;
 
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
-readonly class LoginRateLimiter
+readonly class AuthRateLimiter
 {
     public function __construct(
         private RateLimiterFactory $anonymousApiLimiter,

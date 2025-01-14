@@ -25,7 +25,8 @@ class RegisterMapper
     {
         return new RegisterResponse(
             data: new RegisterResponseData(
-                accessToken: $accessToken->getToken(),
+                accessToken: $accessToken->getAccessToken(),
+                refreshToken: $accessToken->getRefreshToken(),
             ),
         );
     }
