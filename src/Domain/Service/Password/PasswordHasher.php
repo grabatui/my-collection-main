@@ -14,8 +14,21 @@ readonly class PasswordHasher
     public function execute(string $originalPassword): string
     {
         return password_hash(
-            password: $this->salt.$originalPassword.$this->salt,
+            password: $this->wrapPasswordWithSalt($originalPassword),
             algo: PASSWORD_DEFAULT,
         );
+    }
+
+    public function verify(string $originalPassword, string $passwordHash): bool
+    {
+        return password_verify(
+            password: $this->wrapPasswordWithSalt($originalPassword),
+            hash: $passwordHash,
+        );
+    }
+
+    private function wrapPasswordWithSalt(string $password): string
+    {
+        return $this->salt.$password.$this->salt;
     }
 }

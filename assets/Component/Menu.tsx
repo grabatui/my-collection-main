@@ -3,10 +3,17 @@ import {Link} from "preact-router";
 import Modal from "./Modal";
 import LoginForm from "./Form/LoginForm";
 import RegisterForm from "./Form/RegisterForm";
-import {registerFormOpened, authFormOpened, menuProfileOpened, resetPasswordFormOpened} from "../Signal/MenuSignal";
+import {
+    registerFormOpened,
+    authFormOpened,
+    menuProfileOpened,
+    sendResetPasswordFormOpened,
+    resetPasswordFormOpened, resetToken
+} from "../Signal/MenuSignal";
 import {User} from "../Signal/GlobalSignal";
 import Loader from "./Loader";
 import {logout} from "../Api/Auth";
+import SendResetPasswordForm from "./Form/SendResetPasswordForm";
 import ResetPasswordForm from "./Form/ResetPasswordForm";
 
 
@@ -39,6 +46,10 @@ export default class Menu extends Component<any, state> {
         registerFormOpened.value = false;
 
         this.setState({isRegisterOpen: false});
+    }
+
+    closeSendResetPasswordModal() {
+        sendResetPasswordFormOpened.value = false;
     }
 
     closeResetPasswordModal() {
@@ -109,11 +120,22 @@ export default class Menu extends Component<any, state> {
                 </Modal>
 
                 <Modal
+                    isOpen={sendResetPasswordFormOpened.value}
+                    onClose={this.closeSendResetPasswordModal.bind(this)}
+                    title={"Сброс пароля"}
+                >
+                    <SendResetPasswordForm onClose={this.closeSendResetPasswordModal.bind(this)} />
+                </Modal>
+
+                <Modal
                     isOpen={resetPasswordFormOpened.value}
                     onClose={this.closeResetPasswordModal.bind(this)}
                     title={"Сброс пароля"}
                 >
-                    <ResetPasswordForm onClose={this.closeResetPasswordModal.bind(this)} />
+                    <ResetPasswordForm
+                        onClose={this.closeResetPasswordModal.bind(this)}
+                        resetToken={resetToken.value}
+                    />
                 </Modal>
             </Fragment>
         );

@@ -1,28 +1,25 @@
 import {ComponentChild} from "preact";
 import Input from "./Field/Input";
+import {sendResetPasswordRequest} from "../../Api/Auth";
 import {ErrorResponse} from "../../Api/callEndpoint";
 import AbstractModalForm, {ModalFormPropTypes, ModalFormState} from "./AbstractModalForm";
-import {resetPasswordRequest} from "../../Api/Auth";
 
 interface PropTypes extends ModalFormPropTypes {
     onClose?: () => void;
-    resetToken: string;
 }
 
 interface State extends ModalFormState{
-    password: string,
-    passwordRepeat: string,
+    email: string,
     error?: string,
     errors: any,
 }
 
-export default class ResetPasswordForm extends AbstractModalForm<PropTypes, State> {
+export default class SendResetPasswordForm extends AbstractModalForm<PropTypes, State> {
     constructor() {
         super();
 
         this.state = {
-            password: '',
-            passwordRepeat: '',
+            email: '',
             error: null,
             errors: {},
         }
@@ -31,11 +28,9 @@ export default class ResetPasswordForm extends AbstractModalForm<PropTypes, Stat
     onSubmit(event: Event) {
         event.preventDefault();
 
-        resetPasswordRequest(
+        sendResetPasswordRequest(
             {
-                token: this.props.resetToken,
-                password: this.state.password,
-                passwordRepeat: this.state.passwordRepeat,
+                email: this.state.email,
             },
             () => {
                 this.clearForm();
@@ -48,8 +43,7 @@ export default class ResetPasswordForm extends AbstractModalForm<PropTypes, Stat
 
     clearForm() {
         this.setState({
-            password: '',
-            passwordRepeat: '',
+            email: '',
             errors: {},
             error: null,
         })
@@ -60,27 +54,15 @@ export default class ResetPasswordForm extends AbstractModalForm<PropTypes, Stat
             <div className="p-4 md:p-5">
                 <form className="space-y-4" action="#" onSubmit={this.onSubmit.bind(this)}>
                     <Input
-                        title="Придумайте пароль"
-                        name="password"
-                        type="password"
-                        id="reset_password_password"
-                        value={this.state.password}
-                        error={this.state.errors['password']}
-                        onValueChange={(event) => this.onChangeStateValue('password', event.currentTarget.value)}
+                        title="Ваш Email"
+                        name="email"
+                        type="email"
+                        id="reset_password_email"
+                        value={this.state.email}
+                        error={this.state.errors['email']}
+                        onValueChange={(event) => this.onChangeStateValue('email', event.currentTarget.value)}
                         isRequired={true}
-                        placeholder="••••••••"
-                    />
-
-                    <Input
-                        title="Повторите пароль"
-                        name="passwordRepeat"
-                        type="password"
-                        id="reset_password_password_repeat"
-                        value={this.state.passwordRepeat}
-                        error={this.state.errors['passwordRepeat']}
-                        onValueChange={(event) => this.onChangeStateValue('passwordRepeat', event.currentTarget.value)}
-                        isRequired={true}
-                        placeholder="••••••••"
+                        placeholder="name@company.com"
                     />
 
                     {this.state.error && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{this.state.error}</p>}

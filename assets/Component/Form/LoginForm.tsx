@@ -1,5 +1,5 @@
 import {ComponentChild} from "preact";
-import {registerFormOpened, resetPasswordFormOpened} from "../../Signal/MenuSignal";
+import {registerFormOpened, sendResetPasswordFormOpened} from "../../Signal/MenuSignal";
 import Input from "./Field/Input";
 import {login, RegisterResponse} from "../../Api/Auth";
 import {getMetadata} from "../../Api/User";
@@ -38,7 +38,7 @@ export default class LoginForm extends AbstractModalForm<PropTypes, State> {
     }
 
     onResetPasswordClick() {
-        resetPasswordFormOpened.value = true;
+        sendResetPasswordFormOpened.value = true;
 
         this.props.onClose();
         this.clearForm();

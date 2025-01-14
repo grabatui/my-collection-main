@@ -29,6 +29,12 @@ export type sendPasswordRequestRequest = {
     email: string,
 }
 
+export type resetPasswordRequest = {
+    token: string,
+    password: string,
+    passwordRepeat: string,
+}
+
 export const login = (
     data: loginRequest,
     onSuccess?: (response: LoginResponse) => void,
@@ -82,4 +88,12 @@ export const sendResetPasswordRequest = (
     onError?: (reason: any) => void,
 ) => {
     callEndpoint('/api/v1/auth/send-reset-password-request', 'POST', data, onSuccess, onError);
+}
+
+export const resetPasswordRequest = (
+    data: resetPasswordRequest,
+    onSuccess?: (response: EmptyResponse) => void,
+    onError?: (reason: any) => void,
+) => {
+    callEndpoint('/api/v1/auth/reset-password', 'POST', data, onSuccess, onError);
 }

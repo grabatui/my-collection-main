@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Service\Auth\Login;
 
 use App\Domain\Entity\User;
-use App\Domain\Exception\Auth\PasswordIsIncorrect;
-use App\Domain\Exception\User\UserNotFoundException;
+use App\Domain\Exception\Auth\LoginOrPasswordIsIncorrect;
 use App\Domain\Repository\AccessTokenRepository;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Service\Auth\Login\Dto\LoginDto;
@@ -29,13 +28,11 @@ readonly class LoginService
         $user = $this->userRepository->findByEmail($dto->email);
 
         if (!$user) {
-            throw new UserNotFoundException();
+            throw new LoginOrPasswordIsIncorrect();
         }
 
-        $hashedPassword = $this->passwordHasher->execute($dto->password);
-
-        if (password_verify($dto->password, $hashedPassword)) {
-            throw new PasswordIsIncorrect();
+        if (!$this->passwordHasher->verify($dto->password, $user->getPassword())) {
+            throw new LoginOrPasswordIsIncorrect();
         }
 
         if ($clientIp) {
