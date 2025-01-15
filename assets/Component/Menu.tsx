@@ -207,12 +207,12 @@ export default class Menu extends Component<any, state> {
                 className={'z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 ' + (menuProfileOpened.value ? 'block' : 'hidden')}
                 style="position: absolute; margin: 0px;"
             >
-                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
-                    <li>
-                        <a
-                            href="#"
+                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                    <li onClick={this.toggleProfileDropdownMenu.bind(this)}>
+                        <Link
+                            href={"/profile"}
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                        >Профиль</a>
+                        >Профиль</Link>
                     </li>
                 </ul>
 
