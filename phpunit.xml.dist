@@ -29,6 +29,11 @@
         <!-- ###+ symfony/mailer ### -->
         <env name="MAILER_DSN" value="null://null"/>
         <!-- ###- symfony/mailer ### -->
+
+        <!-- ###+ snc/redis-bundle ### -->
+        <!-- passwords that contain special characters (@, %, :, +) must be urlencoded -->
+        <env name="REDIS_URL" value="redis://localhost"/>
+        <!-- ###- snc/redis-bundle ### -->
     </php>
 
     <testsuites>

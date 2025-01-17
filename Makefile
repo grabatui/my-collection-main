@@ -32,6 +32,7 @@ build:
 
 # Helpers
 p-cache-clear:
+	${SYMFONY} cache:pool:clear --all
 	${SYMFONY} cache:clear
 
 

@@ -13,28 +13,31 @@ services:
       - '../src/Entity/'
       - '../src/Kernel.php'
 
+  Grabatui\MyShowsScrapper\:
+    resource: '../vendor/grabatui/myshows-scrapper/src/*'
+
   App\Domain\Service\Password\PasswordHasher:
     arguments:
       $salt: '%env(PASSWORD_SALT)%'
 
   App\Domain\Service\AccessToken\TokenFactory:
-    class: \App\Domain\Service\AccessToken\TokenFactory
     arguments:
       $secret: '%env(SECRET_TOKEN_STRING)%'
       $tokenTtl: '%app.token_ttl%'
 
   App\Domain\Service\AccessToken\TokenValidator:
-    class: \App\Domain\Service\AccessToken\TokenValidator
     arguments:
       $secret: '%env(SECRET_TOKEN_STRING)%'
 
   App\Adapter\Response\Core\Subscriber\ExceptionResponseEventSubscriber:
-    class: \App\Adapter\Response\Core\Subscriber\ExceptionResponseEventSubscriber
     arguments:
       $isShowInternalException: '%env(bool:SHOW_500_DETAIL_ERROR)%'
 
   App\Domain\Service\Mail\MailSender:
-    class: \App\Domain\Service\Mail\MailSender
     arguments:
       $currentDomain: '%env(CURRENT_DOMAIN)%'
       $defaultFrom: '%env(MAIL_FROM)%'
+
+  Grabatui\MyShowsScrapper\HtmlScrapper:
+    arguments:
+      $baseUrl: 'https://myshows.me'

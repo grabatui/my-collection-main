@@ -1,0 +1,10 @@
+framework:
+  cache:
+    app: cache.adapter.redis
+    default_redis_provider: snc_redis.default
+
+    pools:
+      common_pool.cache:
+        default_lifetime: 86400 # One day
+        adapter: cache.adapter.redis
+        provider: snc_redis.default

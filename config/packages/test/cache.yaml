@@ -1,0 +1,8 @@
+framework:
+  cache:
+    app: cache.adapter.array
+    system: cache.adapter.array
+
+    pools:
+      common_pool.cache:
+        adapter: cache.app

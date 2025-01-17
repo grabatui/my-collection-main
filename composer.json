@@ -3,15 +3,25 @@
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Anatoliy Bibanaev",
+            "email": "anatoliy.bibanaev@gmail.com"
+        }
+    ],
     "require": {
         "php": ">=8.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-pdo": "*",
+        "ext-redis": "*",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.0",
+        "grabatui/myshows-scrapper": "dev-main",
         "rbdwllr/reallysimplejwt": "*",
+        "snc/redis-bundle": "*",
         "symfony/console": "6.4.*",
         "symfony/dotenv": "6.4.*",
         "symfony/flex": "^2",
@@ -89,5 +99,11 @@
             "allow-contrib": false,
             "require": "6.4.*"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./myshows-scrapper"
+        }
+    ]
 }

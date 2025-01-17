@@ -1,0 +1,14 @@
+snc_redis:
+  clients:
+    default:
+      type: phpredis
+      alias: default
+      dsn: '%env(resolve:REDIS_DSN)%'
+      logging: false
+    session:
+      type: phpredis
+      alias: session
+      dsn: '%env(resolve:REDIS_DSN)%'
+      logging: false
+      options:
+        prefix: "PHPREDIS_SESSION:"
