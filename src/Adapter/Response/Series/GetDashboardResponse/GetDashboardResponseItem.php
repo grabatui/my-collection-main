@@ -8,17 +8,17 @@ class GetDashboardResponseItem
 {
     /**
      * @param string[] $genres
+     * @param string[] $countries
      */
     public function __construct(
         public int $id,
-        public string $ruTitle,
-        public ?string $enTitle,
+        public string $title,
+        public ?string $originalTitle,
         public array $genres,
-        public int $year,
-        public string $country,
-        public string $status,
-        public string $rawLink,
-        public string $posterUrl,
-        public float $rating,
+        public string $firstAirDate,
+        public array $countries,
+        public string $overview,
+        public float $voteAverage,
+        public string $posterPath,
     ) {}
 }

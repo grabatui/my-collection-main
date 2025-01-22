@@ -35,6 +35,14 @@ when@prod:
       result_cache_driver:
         type: pool
         pool: doctrine.result_cache_pool
+      second_level_cache:
+        enabled: true
+        regions:
+          dictionaries:
+            lifetime: 60
+            cache_driver:
+              type: pool
+              pool: doctrine.second_level_cache_pool
 
   framework:
     cache:

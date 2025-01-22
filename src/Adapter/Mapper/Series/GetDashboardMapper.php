@@ -7,29 +7,48 @@ namespace App\Adapter\Mapper\Series;
 use App\Adapter\Response\Series\GetDashboardResponse;
 use App\Adapter\Response\Series\GetDashboardResponse\GetDashboardResponseData;
 use App\Adapter\Response\Series\GetDashboardResponse\GetDashboardResponseItem;
-use Grabatui\MyShowsScrapper\Series\Dto\Search\CardDto;
+use App\Domain\Repository\CountryRepository;
+use App\Domain\Repository\GenreRepository;
+use App\Domain\Service\Series\Loader\Dto\ListCardDto;
 
 class GetDashboardMapper
 {
+    public function __construct(
+        private readonly CountryRepository $countryRepository,
+        private readonly GenreRepository $genreRepository,
+    ) {}
+
     /**
-     * @param CardDto[] $cards
+     * @param ListCardDto[] $cards
      */
     public function fromDtoToResponse(array $cards): GetDashboardResponse
     {
+        $countries = $this->countryRepository->getAllByCodes();
+        $genres = $this->genreRepository->getAllByExternalIds();
+
         return new GetDashboardResponse(
             data: new GetDashboardResponseData(
                 items: array_map(
-                    static fn(CardDto $card): GetDashboardResponseItem => new GetDashboardResponseItem(
+                    static fn(ListCardDto $card): GetDashboardResponseItem => new GetDashboardResponseItem(
                         id: $card->id,
-                        ruTitle: $card->ruTitle,
-                        enTitle: $card->enTitle,
-                        genres: $card->genres,
-                        year: $card->year,
-                        country: $card->country,
-                        status: $card->status->value,
-                        rawLink: $card->rawLink,
-                        posterUrl: $card->posterUrl,
-                        rating: $card->rating,
+                        title: $card->name,
+                        originalTitle: $card->originalName,
+                        genres: array_filter(
+                            array_map(
+                                static fn(int $genreId): ?string => $genres[$genreId]?->getName(),
+                                $card->genreIds,
+                            )
+                        ),
+                        firstAirDate: $card->firstAirDate,
+                        countries: array_filter(
+                            array_map(
+                                static fn(string $countryCode): ?string => $countries[$countryCode]?->getName(),
+                                $card->originCountries,
+                            )
+                        ),
+                        overview: $card->overview,
+                        voteAverage: $card->voteAverage,
+                        posterPath: $card->getPosterUrlWithSize(),
                     ),
                     $cards,
                 )

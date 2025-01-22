@@ -27,12 +27,12 @@ class GetDashboardController extends AbstractController
     public function __invoke(
         #[MapQueryString] GetDashboardRequest $request,
     ): JsonResponse {
-        $items = $this->getDashboardService->execute(
+        $result = $this->getDashboardService->execute(
             page: $request->page,
         );
 
         return $this->responseFactory->apiResponse(
-            $this->getDashboardMapper->fromDtoToResponse($items),
+            $this->getDashboardMapper->fromDtoToResponse($result->items),
         );
     }
 }

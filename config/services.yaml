@@ -13,8 +13,8 @@ services:
       - '../src/Entity/'
       - '../src/Kernel.php'
 
-  Grabatui\MyShowsScrapper\:
-    resource: '../vendor/grabatui/myshows-scrapper/src/*'
+  Tmdb\:
+    resource: '../vendor/php-tmdb/api/lib/Tmdb/*'
 
   App\Domain\Service\Password\PasswordHasher:
     arguments:
@@ -38,6 +38,9 @@ services:
       $currentDomain: '%env(CURRENT_DOMAIN)%'
       $defaultFrom: '%env(MAIL_FROM)%'
 
-  Grabatui\MyShowsScrapper\HtmlScrapper:
+  App\Infrastructure\TMDB\ClientFactory:
     arguments:
-      $baseUrl: 'https://myshows.me'
+      $apiToken: '%env(TMDB_API_TOKEN)%'
+
+  Tmdb\Client:
+    factory: ['@App\Infrastructure\TMDB\ClientFactory', 'create']
