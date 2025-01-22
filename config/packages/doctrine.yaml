@@ -51,3 +51,5 @@ when@prod:
           adapter: cache.app
         doctrine.system_cache_pool:
           adapter: cache.system
+        doctrine.second_level_cache_pool:
+          adapter: cache.app
