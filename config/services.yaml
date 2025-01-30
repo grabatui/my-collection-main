@@ -1,5 +1,6 @@
 parameters:
   app.token_ttl: 86400
+  app.default_cache_ttl: 86400
 
 services:
   _defaults:
@@ -44,3 +45,7 @@ services:
 
   Tmdb\Client:
     factory: ['@App\Infrastructure\TMDB\ClientFactory', 'create']
+
+  App\Infrastructure\Cache\CacheService:
+    arguments:
+      $defaultExpireTime: '%app.default_cache_ttl%'

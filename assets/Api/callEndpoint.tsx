@@ -37,11 +37,23 @@ export const callEndpoint = (
         headers.set('Authorization', 'Bearer ' + accessToken.accessToken)
     }
 
+    const lastKey: string = Object.keys(data).pop();
+    if (data && typeof data === 'object' && method === 'GET') {
+        endpoint += '?';
+        for (const key in data) {
+            endpoint += key + '=' + data[key];
+
+            if (key !== lastKey) {
+                endpoint += '&';
+            }
+        }
+    }
+
     fetch(
         endpoint,
         {
             method: method,
-            body: data ? JSON.stringify(data) : null,
+            body: data && method !== 'GET' ? JSON.stringify(data) : null,
             headers: headers,
         }
     )

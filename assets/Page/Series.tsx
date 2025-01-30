@@ -2,10 +2,10 @@ import {ComponentChild} from "preact";
 import Page from "../Component/Abstract/Page";
 
 
-export default class Profile extends Page<any, any> {
+export default class Series extends Page<any, any> {
     renderInner(): ComponentChild {
         return (
-            <div>Profile</div>
+            <div>Series</div>
         );
     }
 }

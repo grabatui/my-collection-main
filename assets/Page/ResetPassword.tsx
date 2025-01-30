@@ -9,8 +9,10 @@ interface PropTypes {
 }
 
 
-export default class ResetPassword extends Home<PropTypes, any> {
+export default class ResetPassword extends Home<PropTypes> {
     componentDidMount() {
+        super.componentDidMount();
+
         resetToken.value = this.props.resetToken;
 
         resetPasswordFormOpened.value = true

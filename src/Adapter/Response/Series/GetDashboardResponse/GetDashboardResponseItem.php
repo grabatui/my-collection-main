@@ -20,5 +20,6 @@ class GetDashboardResponseItem
         public string $overview,
         public float $voteAverage,
         public string $posterPath,
+        public string $slug,
     ) {}
 }

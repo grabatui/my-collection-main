@@ -13,6 +13,7 @@ use Tmdb\Client;
 readonly class SeriesLoader extends AbstractLoader implements SeriesLoaderInterface
 {
     public function __construct(
+        // TODO: Make abstract relation
         private Client $client,
         EventDispatcherInterface $eventDispatcher,
     ) {

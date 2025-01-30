@@ -9,17 +9,19 @@ use App\Adapter\Response\Series\GetDashboardResponse\GetDashboardResponseData;
 use App\Adapter\Response\Series\GetDashboardResponse\GetDashboardResponseItem;
 use App\Domain\Repository\CountryRepository;
 use App\Domain\Repository\GenreRepository;
-use App\Domain\Service\Series\Loader\Dto\ListCardDto;
+use App\Domain\Service\Series\Loader\Dto\AbstractListCardDto;
 
 class GetDashboardMapper
 {
+    private const int OVERVIEW_MAX_LENGTH = 250;
+
     public function __construct(
         private readonly CountryRepository $countryRepository,
         private readonly GenreRepository $genreRepository,
     ) {}
 
     /**
-     * @param ListCardDto[] $cards
+     * @param AbstractListCardDto[] $cards
      */
     public function fromDtoToResponse(array $cards): GetDashboardResponse
     {
@@ -29,7 +31,7 @@ class GetDashboardMapper
         return new GetDashboardResponse(
             data: new GetDashboardResponseData(
                 items: array_map(
-                    static fn(ListCardDto $card): GetDashboardResponseItem => new GetDashboardResponseItem(
+                    fn(AbstractListCardDto $card): GetDashboardResponseItem => new GetDashboardResponseItem(
                         id: $card->id,
                         title: $card->name,
                         originalTitle: $card->originalName,
@@ -46,13 +48,33 @@ class GetDashboardMapper
                                 $card->originCountries,
                             )
                         ),
-                        overview: $card->overview,
+                        overview: $this->cutOverview($card->overview),
                         voteAverage: $card->voteAverage,
                         posterPath: $card->getPosterUrlWithSize(),
+                        slug: $card->makeSlug(),
                     ),
                     $cards,
                 )
             ),
         );
+    }
+
+    private function cutOverview(string $overview): string
+    {
+        if (mb_strlen($overview) > self::OVERVIEW_MAX_LENGTH) {
+            $overview = mb_substr($overview, 0, self::OVERVIEW_MAX_LENGTH);
+
+            if (!in_array(mb_substr($overview, -1), [' ', '.', ','], true)) {
+                $lastSpace = mb_strrpos($overview, ' ');
+
+                $overview = mb_substr($overview, 0, $lastSpace);
+            }
+
+            $overview = trim($overview, ' ,.');
+
+            $overview .= '&hellip;';
+        }
+
+        return $overview;
     }
 }
