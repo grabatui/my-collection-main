@@ -29,7 +29,7 @@ readonly class SeriesLoader extends AbstractLoader implements SeriesLoaderInterf
         return new PaginationResultDto(
             page: $result['page'],
             items: array_map(
-                fn(array $item): ListCardDto => $this->makeListCardByArray($item),
+                fn (array $item): ListCardDto => $this->makeListCardByArray($item),
                 $result['results']
             ),
             totalPages: $result['total_pages'],
@@ -46,7 +46,7 @@ readonly class SeriesLoader extends AbstractLoader implements SeriesLoaderInterf
         return new PaginationResultDto(
             page: $result['page'],
             items: array_map(
-                fn(array $item): ListCardDto => $this->makeListCardByArray($item),
+                fn (array $item): ListCardDto => $this->makeListCardByArray($item),
                 $result['results']
             ),
             totalPages: $result['total_pages'],

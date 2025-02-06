@@ -15,7 +15,8 @@ class ResetPasswordController extends AbstractController
 {
     public function __construct(
         private ResetPasswordService $resetPasswordService,
-    ) {}
+    ) {
+    }
 
     #[Route(
         '/api/v1/auth/reset-password',

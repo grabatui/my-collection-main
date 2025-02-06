@@ -34,7 +34,7 @@ class Country
         string $englishName,
     ): self {
         $country = new self();
-        $country->setCode((string)$code);
+        $country->setCode((string) $code);
         $country->setName($name);
         $country->setEnglishName($englishName);
 

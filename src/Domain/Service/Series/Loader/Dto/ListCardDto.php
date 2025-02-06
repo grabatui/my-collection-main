@@ -13,6 +13,6 @@ class ListCardDto extends AbstractListCardDto
 
     public function makeSlug(): string
     {
-        return 'tmdb-' . $this->id;
+        return 'tmdb-'.$this->id;
     }
 }

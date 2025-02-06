@@ -10,5 +10,6 @@ class CountryDto
         public string $iso3166Code,
         public string $nativeName,
         public string $englishName,
-    ) {}
+    ) {
+    }
 }

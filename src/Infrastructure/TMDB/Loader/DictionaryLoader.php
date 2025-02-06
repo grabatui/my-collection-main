@@ -26,7 +26,7 @@ readonly class DictionaryLoader extends AbstractLoader implements DictionaryLoad
         $result = (new ConfigurationApi($this->client))->getCountries();
 
         return array_map(
-            static fn(array $item): CountryDto => new CountryDto(
+            static fn (array $item): CountryDto => new CountryDto(
                 iso3166Code: $item['iso_3166_1'],
                 nativeName: $item['native_name'],
                 englishName: $item['english_name'],
@@ -41,7 +41,7 @@ readonly class DictionaryLoader extends AbstractLoader implements DictionaryLoad
         $result = $this->client->getGenresApi()->getMovieGenres();
 
         return array_map(
-            static fn(array $item): GenreDto => new GenreDto(
+            static fn (array $item): GenreDto => new GenreDto(
                 id: $item['id'],
                 name: $item['name'],
             ),
@@ -55,7 +55,7 @@ readonly class DictionaryLoader extends AbstractLoader implements DictionaryLoad
         $result = $this->client->getGenresApi()->getTvGenres();
 
         return array_map(
-            static fn(array $item): GenreDto => new GenreDto(
+            static fn (array $item): GenreDto => new GenreDto(
                 id: $item['id'],
                 name: $item['name'],
             ),

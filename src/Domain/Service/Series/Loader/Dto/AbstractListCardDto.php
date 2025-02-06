@@ -7,7 +7,7 @@ namespace App\Domain\Service\Series\Loader\Dto;
 abstract class AbstractListCardDto
 {
     /**
-     * @param int[] $genreIds
+     * @param int[]    $genreIds
      * @param string[] $originCountries
      */
     public function __construct(
@@ -25,7 +25,8 @@ abstract class AbstractListCardDto
         public string $firstAirDate,
         public float $voteAverage,
         public int $voteCount,
-    ) {}
+    ) {
+    }
 
     abstract public function getPosterUrlWithSize(int $size = 200): string;
 

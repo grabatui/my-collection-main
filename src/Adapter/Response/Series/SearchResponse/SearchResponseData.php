@@ -16,5 +16,6 @@ class SearchResponseData
         public array $items,
         public int $totalPages,
         public int $totalResults,
-    ) {}
+    ) {
+    }
 }

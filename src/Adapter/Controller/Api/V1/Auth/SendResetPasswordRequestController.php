@@ -15,7 +15,8 @@ class SendResetPasswordRequestController extends AbstractController
 {
     public function __construct(
         private readonly SendResetPasswordRequestService $sendResetPasswordRequestService,
-    ) {}
+    ) {
+    }
 
     #[Route(
         '/api/v1/auth/send-reset-password-request',

@@ -15,7 +15,8 @@ readonly class ResetPasswordService
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private PasswordHasher $passwordHasher,
         private UserRepository $userRepository,
-    ) {}
+    ) {
+    }
 
     public function execute(
         string $token,

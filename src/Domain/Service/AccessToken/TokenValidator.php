@@ -10,7 +10,8 @@ class TokenValidator
 {
     public function __construct(
         private readonly string $secret,
-    ) {}
+    ) {
+    }
 
     public function validate(string $token): bool
     {

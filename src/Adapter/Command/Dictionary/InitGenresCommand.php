@@ -41,12 +41,12 @@ class InitGenresCommand extends Command
             $remoteGenresByExternalId[$genre->id] = $genre;
         }
 
-        $alreadyExists = $this->genreRepository->findByExternalIds(
+        $alreadyExists = $this->genreRepository->getByExternalIds(
             array_keys($remoteGenresByExternalId),
         );
 
         foreach ($remoteGenresByExternalId as $externalId => $genre) {
-            $name = mb_strtoupper(mb_substr($genre->name, 0, 1)) . mb_substr($genre->name, 1);
+            $name = mb_strtoupper(mb_substr($genre->name, 0, 1)).mb_substr($genre->name, 1);
 
             if (isset($alreadyExists[$externalId])) {
                 $entity = $alreadyExists[$externalId];

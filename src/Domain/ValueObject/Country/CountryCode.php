@@ -10,7 +10,7 @@ class CountryCode
 
     public function __construct(string $value)
     {
-        assert(strlen($value) === 2);
+        assert(2 === strlen($value));
 
         $this->value = $value;
     }

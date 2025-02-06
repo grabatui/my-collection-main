@@ -16,7 +16,8 @@ readonly class RefreshTokenService
         private AccessTokenRepository $accessTokenRepository,
         private AuthRateLimiter $authRateLimiter,
         private TokenValidator $tokenValidator,
-    ) {}
+    ) {
+    }
 
     public function execute(
         string $refreshToken,

@@ -15,7 +15,8 @@ readonly class GetDashboardService
     public function __construct(
         private CacheServiceInterface $cacheService,
         private SeriesLoaderInterface $seriesLoader,
-    ) {}
+    ) {
+    }
 
     public function execute(int $page): PaginationResultDto
     {

@@ -20,7 +20,8 @@ readonly class ClientFactory
     public function __construct(
         private string $apiToken,
         private EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     public function create(): Client
     {

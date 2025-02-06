@@ -11,7 +11,8 @@ class CacheKeyDto
     public function __construct(
         public CacheKeyEnum $key,
         public string $id,
-    ) {}
+    ) {
+    }
 
     public function __toString(): string
     {

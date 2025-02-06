@@ -14,13 +14,14 @@ class CacheService implements CacheServiceInterface
     public function __construct(
         private readonly CacheInterface $cache,
         private readonly int $defaultExpireTime,
-    ) {}
+    ) {
+    }
 
     public function get(CacheKeyDto $key, callable $callback, ?int $expireTime = null): mixed
     {
         $expireTime = $expireTime ?? $this->defaultExpireTime;
 
-        return $this->cache->get((string)$key, function (ItemInterface $item) use ($callback, $expireTime) {
+        return $this->cache->get((string) $key, function (ItemInterface $item) use ($callback, $expireTime) {
             $item->expiresAfter($expireTime);
 
             return $callback();
@@ -29,6 +30,6 @@ class CacheService implements CacheServiceInterface
 
     public function delete(CacheKeyDto $key): void
     {
-        $this->cache->delete((string)$key);
+        $this->cache->delete((string) $key);
     }
 }

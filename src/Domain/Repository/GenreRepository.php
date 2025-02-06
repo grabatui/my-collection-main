@@ -25,9 +25,10 @@ class GenreRepository extends ServiceEntityRepository
 
     /**
      * @param int[] $externalIds
+     *
      * @return array<int, Genre>
      */
-    public function findByExternalIds(array $externalIds): array
+    public function getByExternalIds(array $externalIds): array
     {
         $items = $this->findBy(['externalId' => $externalIds]);
 

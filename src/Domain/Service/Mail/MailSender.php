@@ -16,8 +16,12 @@ class MailSender
         private readonly string $currentDomain,
         private readonly MailerInterface $mailer,
         private readonly Environment $environment,
-    ) {}
+    ) {
+    }
 
+    /**
+     * @param string|string[] $to
+     */
     public function send(
         string|array $to,
         string $subject,
@@ -27,7 +31,7 @@ class MailSender
     ): void {
         $email = new Email();
         $email->from($this->defaultFrom);
-        $email->to(...(array)$to);
+        $email->to(...(array) $to);
         $email->subject($subject);
 
         if ($textBody) {
@@ -45,9 +49,12 @@ class MailSender
             throw new \RuntimeException('Text of email is required');
         }
 
-       $this->mailer->send($email);
+        $this->mailer->send($email);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function getDefaultHtmlVariables(): array
     {
         return [

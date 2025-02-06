@@ -11,5 +11,6 @@ class RefreshTokenRequest
     public function __construct(
         #[Assert\NotBlank]
         public string $refreshToken,
-    ) {}
+    ) {
+    }
 }

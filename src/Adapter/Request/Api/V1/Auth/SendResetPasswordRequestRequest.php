@@ -12,5 +12,6 @@ class SendResetPasswordRequestRequest
         #[Assert\Email]
         #[Assert\NotBlank]
         public string $email,
-    ) {}
+    ) {
+    }
 }

@@ -21,5 +21,6 @@ class SeriesCardResponseDto
         public float $voteAverage,
         public string $posterPath,
         public string $slug,
-    ) {}
+    ) {
+    }
 }

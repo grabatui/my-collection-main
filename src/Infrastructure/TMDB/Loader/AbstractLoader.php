@@ -12,7 +12,8 @@ abstract readonly class AbstractLoader
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     protected function setRequestLanguage(string $language = 'ru-RU'): void
     {

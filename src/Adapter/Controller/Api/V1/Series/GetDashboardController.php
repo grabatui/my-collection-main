@@ -17,7 +17,8 @@ class GetDashboardController extends AbstractController
     public function __construct(
         private readonly GetDashboardService $getDashboardService,
         private readonly GetDashboardMapper $getDashboardMapper,
-    ) {}
+    ) {
+    }
 
     #[Route(
         '/api/v1/series/dashboard',

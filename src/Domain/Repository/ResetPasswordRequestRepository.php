@@ -8,7 +8,6 @@ use App\Domain\Entity\ResetPasswordRequest;
 use App\Domain\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use RuntimeException;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Persistence\Repository\ResetPasswordRequestRepositoryTrait;
 use SymfonyCasts\Bundle\ResetPassword\Persistence\ResetPasswordRequestRepositoryInterface;
@@ -37,7 +36,7 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository implements 
         string $hashedToken,
     ): ResetPasswordRequestInterface {
         if (!($user instanceof User)) {
-            throw new RuntimeException('Wrong user class: ' . get_class($user));
+            throw new \RuntimeException('Wrong user class: '.get_class($user));
         }
 
         return ResetPasswordRequest::create(

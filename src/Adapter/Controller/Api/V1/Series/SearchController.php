@@ -17,7 +17,8 @@ class SearchController extends AbstractController
     public function __construct(
         private readonly SearchService $searchService,
         private readonly SearchMapper $searchMapper,
-    ) {}
+    ) {
+    }
 
     #[Route(
         '/api/v1/series/search',

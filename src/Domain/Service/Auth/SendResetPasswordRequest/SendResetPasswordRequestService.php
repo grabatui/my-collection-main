@@ -21,7 +21,8 @@ readonly class SendResetPasswordRequestService
         private UserRepository $userRepository,
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private MailSender $mailSender,
-    ) {}
+    ) {
+    }
 
     public function execute(string $email): void
     {

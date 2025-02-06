@@ -25,6 +25,7 @@ class CountryRepository extends ServiceEntityRepository
 
     /**
      * @param string[] $codes
+     *
      * @return array<string, Country>
      */
     public function getByCodes(array $codes): array

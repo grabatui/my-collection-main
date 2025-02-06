@@ -11,7 +11,8 @@ readonly class SearchService
 {
     public function __construct(
         private SeriesLoaderInterface $seriesLoader,
-    ) {}
+    ) {
+    }
 
     public function execute(string $query, int $page): PaginationResultDto
     {

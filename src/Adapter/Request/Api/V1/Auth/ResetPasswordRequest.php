@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Adapter\Request\Api\V1\Auth;
 
-use App\Infrastructure\Http\Constraint\User\UserNotExistsByEmail;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ResetPasswordRequest

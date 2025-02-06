@@ -15,5 +15,6 @@ class SearchRequest
         #[Assert\NotBlank]
         #[Assert\Positive]
         public int $page,
-    ) {}
+    ) {
+    }
 }

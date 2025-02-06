@@ -12,5 +12,6 @@ class HtmlTemplate
     public function __construct(
         public string $template,
         public array $variables,
-    ) {}
+    ) {
+    }
 }

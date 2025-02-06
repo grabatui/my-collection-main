@@ -13,7 +13,8 @@ class SearchMapper
 {
     public function __construct(
         private readonly SeriesCardMapper $seriesCardMapper,
-    ) {}
+    ) {
+    }
 
     public function fromDtoToResponse(PaginationResultDto $result): SearchResponse
     {

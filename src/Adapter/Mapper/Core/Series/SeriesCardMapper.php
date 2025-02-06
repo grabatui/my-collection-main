@@ -16,10 +16,12 @@ class SeriesCardMapper
     public function __construct(
         private readonly CountryRepository $countryRepository,
         private readonly GenreRepository $genreRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @param AbstractListCardDto[] $cards
+     *
      * @return SeriesCardResponseDto[]
      */
     public function fromAbstractListCardsToSeriesCardResponse(array $cards): array
@@ -28,20 +30,20 @@ class SeriesCardMapper
         $genres = $this->genreRepository->getAllByExternalIds();
 
         return array_map(
-            fn(AbstractListCardDto $card): SeriesCardResponseDto => new SeriesCardResponseDto(
+            fn (AbstractListCardDto $card): SeriesCardResponseDto => new SeriesCardResponseDto(
                 id: $card->id,
                 title: $card->name,
                 originalTitle: $card->originalName,
                 genres: array_filter(
                     array_map(
-                        static fn(int $genreId): ?string => $genres[$genreId]?->getName(),
+                        static fn (int $genreId): ?string => $genres[$genreId]?->getName(),
                         $card->genreIds,
                     )
                 ),
                 firstAirDate: $card->firstAirDate,
                 countries: array_filter(
                     array_map(
-                        static fn(string $countryCode): ?string => $countries[$countryCode]?->getName(),
+                        static fn (string $countryCode): ?string => $countries[$countryCode]?->getName(),
                         $card->originCountries,
                     )
                 ),

@@ -17,7 +17,7 @@ down:
 	docker-compose down --remove-orphans
 
 test:
-	${EXEC_PHP} php bin/phpunit
+	${EXEC_PHP} php vendor/bin/phpunit
 
 down-clear:
 	docker-compose down -v --remove-orphans

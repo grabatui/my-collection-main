@@ -12,5 +12,6 @@ class GetDashboardRequest
         #[Assert\NotBlank]
         #[Assert\Positive]
         public int $page,
-    ) {}
+    ) {
+    }
 }

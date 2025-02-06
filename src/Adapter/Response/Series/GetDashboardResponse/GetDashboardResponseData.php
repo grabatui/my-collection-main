@@ -16,5 +16,6 @@ class GetDashboardResponseData
         public array $items,
         public int $totalPages,
         public int $totalResults,
-    ) {}
+    ) {
+    }
 }
