@@ -7,10 +7,11 @@ type propTypes = {
     id?: string|null;
     type: string;
     value: string|null;
-    error: string|null;
+    error?: string|null;
     onValueChange: (event: any) => void;
     isRequired: boolean;
     placeholder?: string|null;
+    autocomplete: boolean;
 }
 
 
@@ -18,6 +19,7 @@ export default class Input extends Component<propTypes, any> {
     public static defaultProps = {
         type: 'string',
         isRequired: false,
+        autocomplete: true,
     }
 
     calculateLabelColor(): string {
@@ -49,6 +51,7 @@ export default class Input extends Component<propTypes, any> {
                     placeholder={this.props.placeholder}
                     className={'border text-sm rounded-lg block w-full p-2.5 ' + this.calculateInputColor()}
                     required={this.props.isRequired}
+                    autocomplete={this.props.autocomplete ? 'on' : 'off'}
                 />
 
                 {this.props.error && <p className="mt-2 text-sm text-red-600 dark:text-red-500">

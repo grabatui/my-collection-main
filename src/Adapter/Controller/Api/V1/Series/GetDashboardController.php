@@ -32,7 +32,7 @@ class GetDashboardController extends AbstractController
         );
 
         return $this->responseFactory->apiResponse(
-            $this->getDashboardMapper->fromDtoToResponse($result->items),
+            $this->getDashboardMapper->fromDtoToResponse($result),
         );
     }
 }

@@ -1,5 +1,5 @@
 import {Component, ComponentChild, Fragment} from "preact";
-import {Link} from "preact-router";
+import {Link} from 'preact-router/match';
 import Modal from "./Modal";
 import LoginForm from "./Form/LoginForm";
 import RegisterForm from "./Form/RegisterForm";
@@ -89,9 +89,10 @@ export default class Menu extends Component<any, state> {
                         </div>
 
                         <div className="text-gray-500 order-3 w-full md:w-auto md:order-2">
-                            <ul className="flex font-semibold justify-between">
-                                <Link activeClassName="text-indigo-500" href="/">Главная</Link>
-                            </ul>
+                            <nav className="flex font-semibold justify-between">
+                                {this.getMainMenuLink("/", "Главная")}
+                                {this.getMainMenuLink("/series", "Сериалы")}
+                            </nav>
                         </div>
 
                         <div className="order-2 md:order-3">
@@ -224,6 +225,26 @@ export default class Menu extends Component<any, state> {
                     >Выйти</a>
                 </div>
             </div>
+        );
+    }
+
+    private getMainMenuLink(
+        url: string,
+        name: string,
+    ): ComponentChild {
+        let colorClassName = 'text-gray-600 dark:text-gray-500';
+        if (
+            (url === '/' && document.location.pathname === '/')
+            || (url !== '/' && document.location.pathname.startsWith(url))
+        ) {
+            colorClassName = 'text-indigo-600 dark:text-indigo-500';
+        }
+
+        return (
+            <Link
+                className={"hover:underline px-2 " + colorClassName}
+                href={url}
+            >{name}</Link>
         );
     }
 }

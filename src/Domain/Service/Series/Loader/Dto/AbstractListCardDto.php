@@ -14,7 +14,7 @@ abstract class AbstractListCardDto
         public int $id,
         public string $name,
         public bool $isAdult,
-        public string $backdropPath,
+        public ?string $backdropPath,
         public array $genreIds,
         public array $originCountries,
         public string $originalLanguage,

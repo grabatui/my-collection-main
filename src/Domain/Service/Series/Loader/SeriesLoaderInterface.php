@@ -9,4 +9,6 @@ use App\Domain\Service\Series\Loader\Dto\PaginationResultDto;
 interface SeriesLoaderInterface
 {
     public function getTopRated(int $page = 1): PaginationResultDto;
+
+    public function search(string $query, int $page = 1): PaginationResultDto;
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Response\Series\GetDashboardResponse;
+namespace App\Adapter\Response\Series\SearchResponse;
 
 use App\Adapter\Response\Core\Series\SeriesCardResponseDto;
 
-class GetDashboardResponseData
+class SearchResponseData
 {
     /**
      * @param SeriesCardResponseDto[] $items

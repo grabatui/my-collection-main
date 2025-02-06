@@ -37,6 +37,23 @@ readonly class SeriesLoader extends AbstractLoader implements SeriesLoaderInterf
         );
     }
 
+    public function search(string $query, int $page = 1): PaginationResultDto
+    {
+        $this->setRequestLanguage();
+
+        $result = $this->client->getSearchApi()->searchTv($query, ['page' => $page]);
+
+        return new PaginationResultDto(
+            page: $result['page'],
+            items: array_map(
+                fn(array $item): ListCardDto => $this->makeListCardByArray($item),
+                $result['results']
+            ),
+            totalPages: $result['total_pages'],
+            totalResults: $result['total_results'],
+        );
+    }
+
     private function makeListCardByArray(array $data): ListCardDto
     {
         return new ListCardDto(

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Response\Series\GetDashboardResponse;
+namespace App\Adapter\Response\Core\Series;
 
-class GetDashboardResponseItem
+class SeriesCardResponseDto
 {
     /**
      * @param string[] $genres

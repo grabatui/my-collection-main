@@ -16,7 +16,19 @@ export interface ListCardResponseItem {
 
 export interface GetDashboardResponse {
     data: {
+        page: number
         items: ListCardResponseItem[]
+        totalPages: number
+        totalResults: number
+    }
+}
+
+export interface SearchResponse {
+    data: {
+        page: number
+        items: ListCardResponseItem[]
+        totalPages: number
+        totalResults: number
     }
 }
 
@@ -27,3 +39,12 @@ export const getDashboard = (
 ) => {
     callEndpoint('/api/v1/series/dashboard', 'GET', {page: page}, onSuccess, onError)
 };
+
+export const search = (
+    query: string,
+    page: number,
+    onSuccess?: (response: SearchResponse) => void,
+    onError?: (reason: any) => void,
+) => {
+    callEndpoint('/api/v1/series/search', 'GET', {query: query, page: page}, onSuccess, onError)
+}

@@ -10,7 +10,7 @@ import {Popover} from "flowbite";
 
 
 interface State {
-    items: ListCardResponseItem[]
+    seriesItems: ListCardResponseItem[]
 }
 
 export default class Home<TPropTypes> extends Page<TPropTypes, State> {
@@ -18,7 +18,7 @@ export default class Home<TPropTypes> extends Page<TPropTypes, State> {
         super();
 
         this.state = {
-            items: [],
+            seriesItems: [],
         }
 
         if (getAccessToken()) {
@@ -34,13 +34,13 @@ export default class Home<TPropTypes> extends Page<TPropTypes, State> {
         getDashboard(
             1,
             (response: GetDashboardResponse) => {
-                this.setState({items: response.data.items});
+                this.setState({seriesItems: response.data.items});
             }
         );
     }
 
     componentDidUpdate() {
-        this.state.items.forEach((item: ListCardResponseItem) => {
+        this.state.seriesItems.forEach((item: ListCardResponseItem) => {
             const popoverCard = document.getElementById('popover-card-' + item.id);
             const popoverCardTrigger = document.getElementById('popover-card-trigger-' + item.id);
 
@@ -58,13 +58,13 @@ export default class Home<TPropTypes> extends Page<TPropTypes, State> {
     }
 
     renderInner(): ComponentChild {
-        return this.state.items.length <= 0
+        return this.state.seriesItems.length <= 0
             ? <div className="flex items-center justify-center">
                 <Loader />
             </div>
             : <div>
                 <div className="grid grid-cols-5 gap-4 xl:grid-cols-10">
-                    {this.state.items.map((item: ListCardResponseItem) => (
+                    {this.state.seriesItems.map((item: ListCardResponseItem) => (
                         <Fragment>
                             <div id={"popover-card-trigger-" + item.id}>
                                 <Link href={"/series/" + item.slug}>
