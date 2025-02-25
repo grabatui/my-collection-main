@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\TMDB;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Tmdb\Client;
 use Tmdb\Event\BeforeRequestEvent;
 use Tmdb\Event\Listener\Request\AcceptJsonRequestListener;

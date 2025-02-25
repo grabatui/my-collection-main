@@ -8,6 +8,7 @@ use App\Domain\Entity\ResetPasswordRequest;
 use App\Domain\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Persistence\Repository\ResetPasswordRequestRepositoryTrait;
 use SymfonyCasts\Bundle\ResetPassword\Persistence\ResetPasswordRequestRepositoryInterface;
@@ -36,7 +37,7 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository implements 
         string $hashedToken,
     ): ResetPasswordRequestInterface {
         if (!($user instanceof User)) {
-            throw new \RuntimeException('Wrong user class: '.get_class($user));
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }
 
         return ResetPasswordRequest::create(

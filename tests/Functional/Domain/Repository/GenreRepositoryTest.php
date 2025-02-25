@@ -15,6 +15,7 @@ use App\Tests\Core\Trait\Entity\GenreTrait;
 class GenreRepositoryTest extends KernelTestSuit
 {
     use GenreTrait;
+
     private const int CUSTOM_EXTERNAL_ID = 1111111;
 
     protected function tearDown(): void
@@ -42,15 +43,13 @@ class GenreRepositoryTest extends KernelTestSuit
         $actualGenres = $repository->getByExternalIds([
             $genre1->getExternalId(),
             $genre2->getExternalId(),
-            11111111,
+            1111112,
         ]);
 
         $this->assertArrayOfEntitiesEqual(
             expectedEntities: [$genre1, $genre2],
             actualEntities: $actualGenres,
-            sortFunction: static fn (Genre $aGenre, Genre $bGenre): int =>
-                $aGenre->getExternalId() <=> $bGenre->getExternalId()
-            ,
+            sortFunction: static fn (Genre $aGenre, Genre $bGenre): int => $aGenre->getExternalId() <=> $bGenre->getExternalId(),
         );
     }
 

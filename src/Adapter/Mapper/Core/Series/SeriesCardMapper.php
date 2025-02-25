@@ -36,14 +36,14 @@ class SeriesCardMapper
                 originalTitle: $card->originalName,
                 genres: array_filter(
                     array_map(
-                        static fn (int $genreId): ?string => $genres[$genreId]?->getName(),
+                        static fn (int $genreId): string => $genres[$genreId]->getName(),
                         $card->genreIds,
                     )
                 ),
                 firstAirDate: $card->firstAirDate,
                 countries: array_filter(
                     array_map(
-                        static fn (string $countryCode): ?string => $countries[$countryCode]?->getName(),
+                        static fn (string $countryCode): string => $countries[$countryCode]->getName(),
                         $card->originCountries,
                     )
                 ),

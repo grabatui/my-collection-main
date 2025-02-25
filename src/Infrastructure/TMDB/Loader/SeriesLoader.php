@@ -7,7 +7,7 @@ namespace App\Infrastructure\TMDB\Loader;
 use App\Domain\Service\Series\Loader\Dto\ListCardDto;
 use App\Domain\Service\Series\Loader\Dto\PaginationResultDto;
 use App\Domain\Service\Series\Loader\SeriesLoaderInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Tmdb\Client;
 
 readonly class SeriesLoader extends AbstractLoader implements SeriesLoaderInterface
@@ -54,6 +54,9 @@ readonly class SeriesLoader extends AbstractLoader implements SeriesLoaderInterf
         );
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     private function makeListCardByArray(array $data): ListCardDto
     {
         return new ListCardDto(

@@ -8,7 +8,7 @@ use App\Domain\Service\Dictionary\Loader\DictionaryLoaderInterface;
 use App\Domain\Service\Dictionary\Loader\Dto\CountryDto;
 use App\Domain\Service\Dictionary\Loader\Dto\GenreDto;
 use App\Infrastructure\TMDB\Api\ConfigurationApi;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Tmdb\Client;
 
 readonly class DictionaryLoader extends AbstractLoader implements DictionaryLoaderInterface

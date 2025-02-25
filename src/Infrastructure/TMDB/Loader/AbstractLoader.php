@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\TMDB\Loader;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Tmdb\Event\Listener\Request\LanguageFilterRequestListener;
 use Tmdb\Event\RequestEvent;
 
