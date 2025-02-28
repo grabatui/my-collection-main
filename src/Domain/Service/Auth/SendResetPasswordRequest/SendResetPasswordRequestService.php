@@ -54,8 +54,8 @@ readonly class SendResetPasswordRequestService
     private function mapException(ResetPasswordExceptionInterface $exception): DomainException
     {
         return match (get_class($exception)) {
-            TooManyPasswordRequestsException::class => new TooManyRequestsException(),
-            default => new UnexpectedException(),
+            TooManyPasswordRequestsException::class => new TooManyRequestsException(previous: $exception),
+            default => new UnexpectedException(previous: $exception),
         };
     }
 }

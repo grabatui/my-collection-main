@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * @coversNothing
+ */
 class KernelTestSuit extends KernelTestCase
 {
     use FakerTrait;

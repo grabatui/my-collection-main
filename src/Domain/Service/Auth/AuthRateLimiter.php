@@ -7,10 +7,10 @@ namespace App\Domain\Service\Auth;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
-readonly class AuthRateLimiter
+class AuthRateLimiter
 {
     public function __construct(
-        private RateLimiterFactory $anonymousApiLimiter,
+        private readonly RateLimiterFactory $anonymousApiLimiter,
     ) {
     }
 

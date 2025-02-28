@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Service\Auth\ResetPassword;
 
 use App\Domain\Entity\User;
+use App\Domain\Exception\Auth\ResetPasswordException;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Service\Password\PasswordHasher;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 readonly class ResetPasswordService
@@ -22,8 +24,15 @@ readonly class ResetPasswordService
         string $token,
         string $password,
     ): void {
-        /** @var User $user */
-        $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
+        try {
+            /** @var User $user */
+            $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
+        } catch (ResetPasswordExceptionInterface $exception) {
+            throw new ResetPasswordException(
+                message: $exception->getMessage(),
+                previous: $exception,
+            );
+        }
 
         $user->setPassword(
             $this->passwordHasher->execute($password),

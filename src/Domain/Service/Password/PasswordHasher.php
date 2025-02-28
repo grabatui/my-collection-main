@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Service\Password;
 
-readonly class PasswordHasher
+class PasswordHasher
 {
     public function __construct(
-        private string $salt,
+        private readonly string $salt,
     ) {
     }
 
